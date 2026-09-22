@@ -1,0 +1,786 @@
+{
+  "titulo": "Cuestionario Medio Curso - Circuitos Análogos y Digitales",
+  "total_preguntas": 130,
+  "preguntas": [
+    {
+      "id": 1,
+      "tema": "Señal análoga",
+      "pregunta": "¿Cuáles son las características de una señal análoga?",
+      "respuesta": "Las señales son continuas y pueden tener un número infinito de valores dentro de un rango; no están limitadas a valores discretos, lo que permite representar variaciones suaves y naturales."
+    },
+    {
+      "id": 2,
+      "tema": "Señal análoga",
+      "pregunta": "¿Una señal análoga es continua o discreta?",
+      "respuesta": "Continua."
+    },
+    {
+      "id": 3,
+      "tema": "Señal análoga",
+      "pregunta": "¿Cuántos valores puede tener una señal análoga dentro de un rango?",
+      "respuesta": "Un número infinito de valores."
+    },
+    {
+      "id": 4,
+      "tema": "Señal análoga",
+      "pregunta": "¿Está limitada una señal análoga a valores discretos?",
+      "respuesta": "No, no está limitada a valores discretos."
+    },
+    {
+      "id": 5,
+      "tema": "Señal análoga",
+      "pregunta": "¿Qué permite representar una señal análoga gracias a que no está limitada a valores discretos?",
+      "respuesta": "Variaciones suaves y naturales."
+    },
+    {
+      "id": 6,
+      "tema": "Señal digital",
+      "pregunta": "¿Cuáles son las características de una señal digital?",
+      "respuesta": "Las señales se representan en valores discretos; estos valores son de naturaleza escalonada, es decir, la señal solo puede tener ciertos valores predefinidos."
+    },
+    {
+      "id": 7,
+      "tema": "Señal digital",
+      "pregunta": "¿En qué tipo de valores se representa una señal digital?",
+      "respuesta": "En valores discretos."
+    },
+    {
+      "id": 8,
+      "tema": "Señal digital",
+      "pregunta": "¿De qué naturaleza son los valores de una señal digital?",
+      "respuesta": "De naturaleza escalonada."
+    },
+    {
+      "id": 9,
+      "tema": "Señal digital",
+      "pregunta": "¿Qué significa que los valores de una señal digital sean de naturaleza escalonada?",
+      "respuesta": "Que la señal solo puede tener ciertos valores predefinidos."
+    },
+    {
+      "id": 10,
+      "tema": "Señal análoga vs digital",
+      "pregunta": "¿Cuál es la diferencia principal entre una señal análoga y una digital?",
+      "respuesta": "La análoga es continua y puede tener infinitos valores dentro de un rango; la digital solo tiene valores discretos, escalonados y predefinidos."
+    },
+    {
+      "id": 11,
+      "tema": "Electricidad",
+      "pregunta": "¿Qué es la electricidad?",
+      "respuesta": "Se refiere al estudio y uso de la electricidad en general. Implica el flujo de electrones a través de conductores (como cables) para realizar trabajos, como iluminar bombillas, accionar motores o alimentar electrodomésticos."
+    },
+    {
+      "id": 12,
+      "tema": "Electricidad",
+      "pregunta": "¿Qué flujo implica la electricidad y a través de qué?",
+      "respuesta": "El flujo de electrones a través de conductores, como cables."
+    },
+    {
+      "id": 13,
+      "tema": "Electricidad",
+      "pregunta": "¿Qué ejemplos de trabajos se realizan con la electricidad?",
+      "respuesta": "Iluminar bombillas, accionar motores o alimentar electrodomésticos."
+    },
+    {
+      "id": 14,
+      "tema": "Electricidad",
+      "pregunta": "En resumen, ¿en qué se enfoca la electricidad?",
+      "respuesta": "En la generación, transmisión y distribución de energía eléctrica a gran escala."
+    },
+    {
+      "id": 15,
+      "tema": "Electrónica",
+      "pregunta": "¿Qué es la electrónica?",
+      "respuesta": "Se centra en el estudio y aplicación de dispositivos que controlan el flujo de electrones de manera más precisa y en circuitos pequeños."
+    },
+    {
+      "id": 16,
+      "tema": "Electrónica",
+      "pregunta": "¿Qué componentes involucra la electrónica?",
+      "respuesta": "Transistores, diodos, circuitos integrados y más."
+    },
+    {
+      "id": 17,
+      "tema": "Electrónica",
+      "pregunta": "¿Para qué se usan los componentes electrónicos?",
+      "respuesta": "Para procesar señales o realizar tareas específicas."
+    },
+    {
+      "id": 18,
+      "tema": "Electrónica",
+      "pregunta": "¿En qué sistemas se usa la electrónica?",
+      "respuesta": "En computadoras, teléfonos móviles, radios y todo tipo de dispositivos que requieren manipulación de señales eléctricas de forma controlada."
+    },
+    {
+      "id": 19,
+      "tema": "Electricidad vs electrónica",
+      "pregunta": "¿Cuál es la diferencia entre electricidad y electrónica?",
+      "respuesta": "La electricidad se enfoca en la generación, transmisión y distribución de energía eléctrica a gran escala; la electrónica controla el flujo de electrones de manera más precisa, en circuitos pequeños, para procesar señales o realizar tareas específicas."
+    },
+    {
+      "id": 20,
+      "tema": "Ley de Ohm",
+      "pregunta": "¿Qué es la ley de Ohm?",
+      "respuesta": "Es una ley fundamental de la electricidad que establece la relación entre la tensión (voltaje), la corriente eléctrica y la resistencia en un circuito eléctrico."
+    },
+    {
+      "id": 21,
+      "tema": "Ley de Ohm",
+      "pregunta": "¿Qué tres magnitudes relaciona la ley de Ohm?",
+      "respuesta": "La tensión (voltaje), la corriente eléctrica y la resistencia."
+    },
+    {
+      "id": 22,
+      "tema": "Ley de Ohm",
+      "pregunta": "¿Quién formuló la ley de Ohm?",
+      "respuesta": "El físico alemán Georg Simon Ohm."
+    },
+    {
+      "id": 23,
+      "tema": "Ley de Ohm",
+      "pregunta": "¿De qué nacionalidad era Georg Simon Ohm y cuál era su profesión?",
+      "respuesta": "Era alemán y físico."
+    },
+    {
+      "id": 24,
+      "tema": "Ley de Ohm",
+      "pregunta": "¿En qué año fue formulada la ley de Ohm?",
+      "respuesta": "En 1827."
+    },
+    {
+      "id": 25,
+      "tema": "Ley de Ohm",
+      "pregunta": "¿Qué postula la ley de Ohm?",
+      "respuesta": "Que la corriente eléctrica que circula por un conductor es directamente proporcional a la diferencia de potencial (voltaje) aplicada e inversamente proporcional a la resistencia del conductor."
+    },
+    {
+      "id": 26,
+      "tema": "Ley de Ohm",
+      "pregunta": "Según la ley de Ohm, ¿cómo es la corriente respecto al voltaje?",
+      "respuesta": "Directamente proporcional (si aumenta el voltaje, aumenta la corriente)."
+    },
+    {
+      "id": 27,
+      "tema": "Ley de Ohm",
+      "pregunta": "Según la ley de Ohm, ¿cómo es la corriente respecto a la resistencia?",
+      "respuesta": "Inversamente proporcional (si aumenta la resistencia, disminuye la corriente)."
+    },
+    {
+      "id": 28,
+      "tema": "Voltaje",
+      "pregunta": "¿Qué es el voltaje (V)?",
+      "respuesta": "Es la diferencia de potencial eléctrico; es decir, la cantidad de trabajo que se necesita realizar para mover una carga eléctrica de un punto a otro en contra de las fuerzas eléctricas."
+    },
+    {
+      "id": 29,
+      "tema": "Voltaje",
+      "pregunta": "¿Con qué letra se representa el voltaje?",
+      "respuesta": "Con la letra V."
+    },
+    {
+      "id": 30,
+      "tema": "Voltaje",
+      "pregunta": "¿Qué otro nombre recibe el voltaje?",
+      "respuesta": "Diferencia de potencial eléctrico (o tensión)."
+    },
+    {
+      "id": 31,
+      "tema": "Voltaje",
+      "pregunta": "¿El voltaje es la cantidad de trabajo necesaria para hacer qué?",
+      "respuesta": "Para mover una carga eléctrica de un punto a otro en contra de las fuerzas eléctricas."
+    },
+    {
+      "id": 32,
+      "tema": "Corriente",
+      "pregunta": "¿Qué es la corriente (I)?",
+      "respuesta": "Es el flujo de carga a través de un conductor. En términos sencillos, es el movimiento de electrones (o partículas cargadas) en respuesta a una diferencia de potencial (voltaje) aplicada."
+    },
+    {
+      "id": 33,
+      "tema": "Corriente",
+      "pregunta": "¿Con qué letra se representa la corriente?",
+      "respuesta": "Con la letra I."
+    },
+    {
+      "id": 34,
+      "tema": "Corriente",
+      "pregunta": "En términos sencillos, ¿qué es la corriente?",
+      "respuesta": "El movimiento de electrones (o partículas cargadas)."
+    },
+    {
+      "id": 35,
+      "tema": "Corriente",
+      "pregunta": "¿En respuesta a qué se mueven los electrones en la corriente eléctrica?",
+      "respuesta": "En respuesta a una diferencia de potencial (voltaje) aplicada."
+    },
+    {
+      "id": 36,
+      "tema": "Resistencia",
+      "pregunta": "¿Qué es la resistencia (R)?",
+      "respuesta": "Es la oposición al paso de la corriente."
+    },
+    {
+      "id": 37,
+      "tema": "Resistencia",
+      "pregunta": "¿Con qué letra se representa la resistencia?",
+      "respuesta": "Con la letra R."
+    },
+    {
+      "id": 38,
+      "tema": "Tipos de circuitos",
+      "pregunta": "¿Cuáles son los dos tipos principales de circuitos eléctricos?",
+      "respuesta": "Circuitos en corriente continua (CC) y en corriente alterna (CA)."
+    },
+    {
+      "id": 39,
+      "tema": "Tipos de circuitos",
+      "pregunta": "¿En qué se diferencian los circuitos de corriente continua y alterna?",
+      "respuesta": "En cómo fluye la corriente a través de ellos."
+    },
+    {
+      "id": 40,
+      "tema": "Corriente continua",
+      "pregunta": "¿Qué sucede en un circuito de corriente continua?",
+      "respuesta": "El flujo de electrones es unidireccional, es decir, siempre va en la misma dirección. La corriente fluye de manera constante desde el polo negativo hacia el positivo."
+    },
+    {
+      "id": 41,
+      "tema": "Corriente continua",
+      "pregunta": "¿Cómo es el flujo de electrones en corriente continua?",
+      "respuesta": "Unidireccional: siempre va en la misma dirección."
+    },
+    {
+      "id": 42,
+      "tema": "Corriente continua",
+      "pregunta": "En corriente continua, ¿desde qué polo y hacia cuál fluye la corriente?",
+      "respuesta": "Desde el polo negativo hacia el positivo."
+    },
+    {
+      "id": 43,
+      "tema": "Corriente continua",
+      "pregunta": "¿Cómo fluye la corriente continua en el tiempo: constante o variable?",
+      "respuesta": "De manera constante."
+    },
+    {
+      "id": 44,
+      "tema": "Corriente alterna",
+      "pregunta": "¿Qué sucede en un circuito de corriente alterna?",
+      "respuesta": "La corriente cambia de dirección periódicamente. El flujo de electrones no es constante, sino que alterna entre direcciones opuestas a intervalos regulares."
+    },
+    {
+      "id": 45,
+      "tema": "Corriente alterna",
+      "pregunta": "¿Cada cuánto cambia de dirección la corriente alterna?",
+      "respuesta": "Periódicamente, a intervalos regulares."
+    },
+    {
+      "id": 46,
+      "tema": "Corriente alterna",
+      "pregunta": "¿Es constante el flujo de electrones en corriente alterna?",
+      "respuesta": "No, alterna entre direcciones opuestas."
+    },
+    {
+      "id": 47,
+      "tema": "Usos CC y CA",
+      "pregunta": "¿Por qué o cuándo se usa la corriente continua (CC)?",
+      "respuesta": "Cuando se necesita un flujo estable y constante de electricidad, como en circuitos electrónicos, baterías y dispositivos que requieren precisión en el suministro de energía."
+    },
+    {
+      "id": 48,
+      "tema": "Usos CC y CA",
+      "pregunta": "Menciona ejemplos de uso de la corriente continua.",
+      "respuesta": "Circuitos electrónicos, baterías y dispositivos que requieren precisión en el suministro de energía."
+    },
+    {
+      "id": 49,
+      "tema": "Usos CC y CA",
+      "pregunta": "¿Para qué se prefiere la corriente alterna (CA)?",
+      "respuesta": "Para la transmisión de electricidad a larga distancia."
+    },
+    {
+      "id": 50,
+      "tema": "Usos CC y CA",
+      "pregunta": "¿Por qué se prefiere la corriente alterna para transmitir electricidad a larga distancia?",
+      "respuesta": "Porque es más fácil transformar el voltaje para minimizar las pérdidas de energía durante el transporte."
+    },
+    {
+      "id": 51,
+      "tema": "Circuito pasivo",
+      "pregunta": "¿Qué es un circuito pasivo?",
+      "respuesta": "Es un circuito que no tiene fuentes de energía propias; sus componentes solo consumen, almacenan o disipan energía, pero no la generan."
+    },
+    {
+      "id": 52,
+      "tema": "Circuito pasivo",
+      "pregunta": "¿Qué hacen con la energía los componentes de un circuito pasivo?",
+      "respuesta": "Solo la consumen, almacenan o disipan; no la generan."
+    },
+    {
+      "id": 53,
+      "tema": "Circuito pasivo",
+      "pregunta": "¿Tiene un circuito pasivo fuentes de energía propias?",
+      "respuesta": "No."
+    },
+    {
+      "id": 54,
+      "tema": "Circuito pasivo",
+      "pregunta": "¿Cuáles son las características principales de un circuito pasivo?",
+      "respuesta": "No amplifican; la energía fluye en una sola dirección; no son capaces de proporcionar energía adicional al circuito; y reciben energía para disiparla."
+    },
+    {
+      "id": 55,
+      "tema": "Circuito pasivo",
+      "pregunta": "¿Un circuito pasivo puede amplificar?",
+      "respuesta": "No, no amplifica."
+    },
+    {
+      "id": 56,
+      "tema": "Circuito pasivo",
+      "pregunta": "¿En cuántas direcciones fluye la energía en un circuito pasivo?",
+      "respuesta": "En una sola dirección."
+    },
+    {
+      "id": 57,
+      "tema": "Circuito pasivo",
+      "pregunta": "¿Un circuito pasivo puede proporcionar energía adicional al circuito?",
+      "respuesta": "No; recibe energía para disiparla."
+    },
+    {
+      "id": 58,
+      "tema": "Circuito activo",
+      "pregunta": "¿Qué es un circuito activo?",
+      "respuesta": "Es aquel que contiene componentes activos capaces de generar, controlar o amplificar energía. Requieren una fuente de energía externa, como una batería o una fuente de alimentación, para funcionar."
+    },
+    {
+      "id": 59,
+      "tema": "Circuito activo",
+      "pregunta": "¿Qué son capaces de hacer los componentes activos?",
+      "respuesta": "Generar, controlar o amplificar energía."
+    },
+    {
+      "id": 60,
+      "tema": "Circuito activo",
+      "pregunta": "¿Qué requieren los circuitos activos para funcionar?",
+      "respuesta": "Una fuente de energía externa, como una batería o una fuente de alimentación."
+    },
+    {
+      "id": 61,
+      "tema": "Circuito activo",
+      "pregunta": "¿Cuáles son las características principales de un circuito activo?",
+      "respuesta": "Pueden amplificar señales, controlar el flujo de la corriente y generar energía; modifican su comportamiento en función de la entrada y pueden proporcionar energía al resto del sistema."
+    },
+    {
+      "id": 62,
+      "tema": "Circuito activo",
+      "pregunta": "¿En función de qué modifican su comportamiento los circuitos activos?",
+      "respuesta": "En función de la entrada."
+    },
+    {
+      "id": 63,
+      "tema": "Pasivo vs activo",
+      "pregunta": "¿Cuál es la diferencia entre un circuito pasivo y uno activo?",
+      "respuesta": "El pasivo no tiene fuentes propias, no amplifica y solo consume, almacena o disipa energía; el activo puede generar, controlar o amplificar energía y proporcionar energía al resto del sistema, usando una fuente externa."
+    },
+    {
+      "id": 64,
+      "tema": "Clasificación de señales",
+      "pregunta": "¿Cómo se pueden clasificar las señales análogas?",
+      "respuesta": "Pueden clasificarse de diferentes maneras según sus características; en este caso, como continuas y discretas."
+    },
+    {
+      "id": 65,
+      "tema": "Señal continua",
+      "pregunta": "¿Cómo se define una señal continua?",
+      "respuesta": "Aquella que tiene un valor definido en cada instante de tiempo; se puede medir en cualquier momento dentro de un intervalo determinado y su valor varía de manera suave sin interrupciones."
+    },
+    {
+      "id": 66,
+      "tema": "Señal continua",
+      "pregunta": "¿En qué momento se puede medir una señal continua?",
+      "respuesta": "En cualquier momento dentro de un intervalo de tiempo determinado."
+    },
+    {
+      "id": 67,
+      "tema": "Señal continua",
+      "pregunta": "¿Cómo varía el valor de una señal continua?",
+      "respuesta": "De manera suave, sin interrupciones."
+    },
+    {
+      "id": 68,
+      "tema": "Señal continua",
+      "pregunta": "¿Cuáles son las propiedades de las señales continuas?",
+      "respuesta": "Amplitud, frecuencia y fase."
+    },
+    {
+      "id": 69,
+      "tema": "Señal continua",
+      "pregunta": "¿Qué es la amplitud de una señal?",
+      "respuesta": "El valor de la señal en cada instante de tiempo."
+    },
+    {
+      "id": 70,
+      "tema": "Señal continua",
+      "pregunta": "¿Qué es la frecuencia de una señal?",
+      "respuesta": "Cuántas veces la señal oscila por unidad de tiempo."
+    },
+    {
+      "id": 71,
+      "tema": "Señal continua",
+      "pregunta": "¿Qué es la fase de una señal?",
+      "respuesta": "El desplazamiento en el tiempo de la señal."
+    },
+    {
+      "id": 72,
+      "tema": "Señal discreta",
+      "pregunta": "¿Cómo se define una señal discreta?",
+      "respuesta": "Aquella que se define solo en instantes de tiempo específicos; solo tiene valor en ciertos puntos del tiempo y no en todos los posibles momentos."
+    },
+    {
+      "id": 73,
+      "tema": "Señal discreta",
+      "pregunta": "¿De qué son resultado las señales discretas?",
+      "respuesta": "De muestrear una señal continua en intervalos de tiempo definidos."
+    },
+    {
+      "id": 74,
+      "tema": "Señal discreta",
+      "pregunta": "¿Cuáles son las propiedades de las señales discretas?",
+      "respuesta": "Muestreo, frecuencia de muestreo y resolución."
+    },
+    {
+      "id": 75,
+      "tema": "Señal discreta",
+      "pregunta": "¿Qué es el muestreo?",
+      "respuesta": "El proceso mediante el cual se obtiene una señal discreta a partir de una señal continua."
+    },
+    {
+      "id": 76,
+      "tema": "Señal discreta",
+      "pregunta": "¿Qué es la frecuencia de muestreo?",
+      "respuesta": "Cuántos puntos de la señal continua se toman por segundo."
+    },
+    {
+      "id": 77,
+      "tema": "Señal discreta",
+      "pregunta": "¿Qué es la resolución de una señal discreta?",
+      "respuesta": "El número de valores posibles que puede tomar la señal discreta."
+    },
+    {
+      "id": 78,
+      "tema": "Continua vs discreta",
+      "pregunta": "¿Cuál es la diferencia entre una señal continua y una discreta?",
+      "respuesta": "La continua tiene un valor definido en cada instante de tiempo; la discreta solo tiene valor en instantes específicos, obtenidos al muestrear la señal continua."
+    },
+    {
+      "id": 79,
+      "tema": "Aparatos análogos",
+      "pregunta": "Menciona ejemplos de aparatos electrónicos que manipulan señales análogas.",
+      "respuesta": "Fuentes de CA/CD, amplificadores de audio, reproductores de vinilo, osciloscopios, micrófonos y termómetros analógicos."
+    },
+    {
+      "id": 80,
+      "tema": "Fuente de CD",
+      "pregunta": "¿Qué es una fuente de corriente continua (CD o CC)?",
+      "respuesta": "Es un dispositivo que proporciona energía eléctrica en forma de corriente continua (una corriente que fluye en una sola dirección) a un circuito o dispositivo."
+    },
+    {
+      "id": 81,
+      "tema": "Fuente de CD",
+      "pregunta": "¿Cuáles son las etapas de una fuente de CD típica en el orden correcto?",
+      "respuesta": "Transformación – Rectificación – Filtrado – Regulación."
+    },
+    {
+      "id": 82,
+      "tema": "Fuente de CD",
+      "pregunta": "¿Cuál es la primera etapa de una fuente de CD típica?",
+      "respuesta": "La transformación."
+    },
+    {
+      "id": 83,
+      "tema": "Fuente de CD",
+      "pregunta": "¿Qué etapa va después de la transformación?",
+      "respuesta": "La rectificación."
+    },
+    {
+      "id": 84,
+      "tema": "Fuente de CD",
+      "pregunta": "¿Qué etapa va después de la rectificación?",
+      "respuesta": "El filtrado."
+    },
+    {
+      "id": 85,
+      "tema": "Fuente de CD",
+      "pregunta": "¿Cuál es la última etapa de una fuente de CD típica?",
+      "respuesta": "La regulación."
+    },
+    {
+      "id": 86,
+      "tema": "Fuente de CD - Transformación",
+      "pregunta": "¿Qué sucede en la etapa de transformación de una fuente de CD?",
+      "respuesta": "Si la fuente de CD está conectada a una fuente de CA (por ejemplo, la red eléctrica), se puede usar un transformador para ajustar el voltaje antes de la conversión."
+    },
+    {
+      "id": 87,
+      "tema": "Fuente de CD - Transformación",
+      "pregunta": "¿Qué componente se usa en la etapa de transformación y para qué?",
+      "respuesta": "Un transformador, para ajustar el voltaje antes de la conversión."
+    },
+    {
+      "id": 88,
+      "tema": "Fuente de CD - Rectificación",
+      "pregunta": "¿Qué sucede en la etapa de rectificación de una fuente de CD?",
+      "respuesta": "Se convierte la corriente alterna (CA) en corriente continua (CC). Este proceso puede ser realizado por diodos en un circuito rectificador."
+    },
+    {
+      "id": 89,
+      "tema": "Fuente de CD - Rectificación",
+      "pregunta": "¿Qué componentes realizan la rectificación?",
+      "respuesta": "Diodos en un circuito rectificador."
+    },
+    {
+      "id": 90,
+      "tema": "Fuente de CD - Filtrado",
+      "pregunta": "¿Qué sucede en la etapa de filtrado de una fuente de CD?",
+      "respuesta": "Después de la rectificación, la señal de CC puede tener variaciones (rizado). El filtro, usualmente un condensador, suaviza estas variaciones, proporcionando una salida de corriente continua más estable."
+    },
+    {
+      "id": 91,
+      "tema": "Fuente de CD - Filtrado",
+      "pregunta": "¿Cómo se llaman las variaciones que tiene la señal de CC después de la rectificación?",
+      "respuesta": "Rizado."
+    },
+    {
+      "id": 92,
+      "tema": "Fuente de CD - Filtrado",
+      "pregunta": "¿Qué componente se usa usualmente como filtro?",
+      "respuesta": "Un condensador."
+    },
+    {
+      "id": 93,
+      "tema": "Fuente de CD - Regulación",
+      "pregunta": "¿Qué sucede en la etapa de regulación de una fuente de CD?",
+      "respuesta": "Se mantiene un voltaje constante y estabilizado, independientemente de las fluctuaciones en la entrada o en la carga del dispositivo."
+    },
+    {
+      "id": 94,
+      "tema": "Fuente de CD - Regulación",
+      "pregunta": "¿Independientemente de qué mantiene la regulación el voltaje constante?",
+      "respuesta": "De las fluctuaciones en la entrada o en la carga del dispositivo."
+    },
+    {
+      "id": 95,
+      "tema": "Fuente de CD - Diagrama",
+      "pregunta": "Según el diagrama, ¿cómo es la forma de la señal en cada etapa de la fuente de CD?",
+      "respuesta": "Ve (entrada): onda senoidal alterna. V1 (tras transformación): senoidal de menor amplitud. V2 (tras rectificación): pulsos solo positivos. V3 (tras filtrado): continua con pequeño rizado. Vs (tras regulación): línea recta constante (CD pura)."
+    },
+    {
+      "id": 96,
+      "tema": "Amplificador",
+      "pregunta": "¿Qué es un amplificador?",
+      "respuesta": "Es un dispositivo electrónico que aumenta la amplitud de una señal eléctrica sin alterar su forma general; amplifica la señal de entrada para que su potencia, voltaje o corriente sea mayor, permitiendo que pueda ser utilizada en otros dispositivos o sistemas."
+    },
+    {
+      "id": 97,
+      "tema": "Amplificador",
+      "pregunta": "¿Un amplificador altera la forma general de la señal?",
+      "respuesta": "No, aumenta su amplitud sin alterar su forma general."
+    },
+    {
+      "id": 98,
+      "tema": "Amplificador",
+      "pregunta": "¿Qué tipos de señales de entrada puede amplificar un amplificador?",
+      "respuesta": "Audio, video, radiofrecuencia, etc."
+    },
+    {
+      "id": 99,
+      "tema": "Amplificador",
+      "pregunta": "¿Qué magnitudes de la señal aumenta un amplificador?",
+      "respuesta": "Su potencia, voltaje o corriente."
+    },
+    {
+      "id": 100,
+      "tema": "Transistor",
+      "pregunta": "¿Cuál es la pieza fundamental de un amplificador?",
+      "respuesta": "El transistor."
+    },
+    {
+      "id": 101,
+      "tema": "Transistor",
+      "pregunta": "¿Qué es un transistor?",
+      "respuesta": "Es un dispositivo electrónico utilizado para amplificar o conmutar señales eléctricas. Puede ser considerado como un interruptor o amplificador de señales eléctricas."
+    },
+    {
+      "id": 102,
+      "tema": "Transistor",
+      "pregunta": "¿Como qué puede ser considerado un transistor?",
+      "respuesta": "Como un interruptor o un amplificador de señales eléctricas."
+    },
+    {
+      "id": 103,
+      "tema": "Amplificador - Ganancia",
+      "pregunta": "¿Qué es la ganancia de un amplificador?",
+      "respuesta": "Es la relación entre la señal de salida y la señal de entrada. Cuanto mayor sea la ganancia, más fuerte será la señal amplificada."
+    },
+    {
+      "id": 104,
+      "tema": "Amplificador - Ganancia",
+      "pregunta": "¿Qué ocurre con la señal amplificada si la ganancia es mayor?",
+      "respuesta": "La señal amplificada es más fuerte."
+    },
+    {
+      "id": 105,
+      "tema": "Amplificador - Respuesta de frecuencia",
+      "pregunta": "¿Qué es la respuesta de frecuencia de un amplificador?",
+      "respuesta": "Indica qué tan bien un amplificador maneja los diferentes tonos (desde los bajos más profundos hasta los agudos más altos) que pasan a través de él."
+    },
+    {
+      "id": 106,
+      "tema": "Amplificador - Distorsión",
+      "pregunta": "¿Qué es la distorsión de la señal en un amplificador?",
+      "respuesta": "Es cuando el amplificador altera la forma de la señal original, lo que puede afectar la calidad del sonido o la precisión de la señal amplificada."
+    },
+    {
+      "id": 107,
+      "tema": "Amplificador - Distorsión",
+      "pregunta": "¿Qué intentan hacer los amplificadores de alta calidad respecto a la distorsión?",
+      "respuesta": "Minimizar la distorsión."
+    },
+    {
+      "id": 108,
+      "tema": "Amplificador - Distorsión",
+      "pregunta": "¿Qué puede afectar la distorsión?",
+      "respuesta": "La calidad del sonido o la precisión de la señal amplificada."
+    },
+    {
+      "id": 109,
+      "tema": "Partes del transistor",
+      "pregunta": "¿Cuáles son las tres partes principales de un transistor?",
+      "respuesta": "Emisor (E), Base (B) y Colector (C)."
+    },
+    {
+      "id": 110,
+      "tema": "Partes del transistor",
+      "pregunta": "¿Qué es el emisor (E) de un transistor?",
+      "respuesta": "Es el terminal que emite portadores de carga (electrones o huecos, dependiendo del tipo de transistor)."
+    },
+    {
+      "id": 111,
+      "tema": "Partes del transistor",
+      "pregunta": "¿Qué portadores de carga emite el emisor?",
+      "respuesta": "Electrones o huecos, dependiendo del tipo de transistor."
+    },
+    {
+      "id": 112,
+      "tema": "Partes del transistor",
+      "pregunta": "¿Qué es la base (B) de un transistor?",
+      "respuesta": "Es el terminal que controla el flujo de corriente entre el emisor y el colector."
+    },
+    {
+      "id": 113,
+      "tema": "Partes del transistor",
+      "pregunta": "¿Qué es el colector (C) de un transistor?",
+      "respuesta": "Es el terminal por donde sale la corriente que ha pasado del emisor."
+    },
+    {
+      "id": 114,
+      "tema": "Partes del transistor",
+      "pregunta": "¿Qué terminal del transistor controla el flujo de corriente entre emisor y colector?",
+      "respuesta": "La base (B)."
+    },
+    {
+      "id": 115,
+      "tema": "Tipos de transistores",
+      "pregunta": "¿Cuáles son los tipos de transistores?",
+      "respuesta": "Transistor de unión bipolar (BJT) y transistor de efecto de campo (FET)."
+    },
+    {
+      "id": 116,
+      "tema": "Tipos de transistores",
+      "pregunta": "¿Qué es el transistor BJT y para qué se usa?",
+      "respuesta": "Es el transistor de unión bipolar, el tipo más tradicional de transistor; se utiliza principalmente para amplificar señales."
+    },
+    {
+      "id": 117,
+      "tema": "Tipos de transistores",
+      "pregunta": "¿Qué significan las siglas BJT?",
+      "respuesta": "Transistor de unión bipolar."
+    },
+    {
+      "id": 118,
+      "tema": "Tipos de transistores",
+      "pregunta": "¿Cuál es el tipo más tradicional de transistor?",
+      "respuesta": "El transistor de unión bipolar (BJT)."
+    },
+    {
+      "id": 119,
+      "tema": "Tipos de transistores",
+      "pregunta": "¿Qué es el transistor FET?",
+      "respuesta": "Es el transistor de efecto de campo; utiliza un campo eléctrico para controlar el flujo de corriente, en lugar de una corriente de base como en el BJT."
+    },
+    {
+      "id": 120,
+      "tema": "Tipos de transistores",
+      "pregunta": "¿Qué significan las siglas FET?",
+      "respuesta": "Transistor de efecto de campo."
+    },
+    {
+      "id": 121,
+      "tema": "Tipos de transistores",
+      "pregunta": "¿Cuál es la diferencia en cómo controlan la corriente el BJT y el FET?",
+      "respuesta": "El FET usa un campo eléctrico para controlar el flujo de corriente; el BJT usa una corriente de base."
+    },
+    {
+      "id": 122,
+      "tema": "Amplificador operacional",
+      "pregunta": "¿Qué es un amplificador operacional (Op-Amp)?",
+      "respuesta": "Es un componente electrónico que se utiliza para amplificar señales eléctricas. Su principal característica es que tiene una alta ganancia (amplifica mucho la señal)."
+    },
+    {
+      "id": 123,
+      "tema": "Amplificador operacional",
+      "pregunta": "¿Cuál es la principal característica de un Op-Amp?",
+      "respuesta": "Tiene una alta ganancia, es decir, amplifica mucho la señal."
+    },
+    {
+      "id": 124,
+      "tema": "Amplificador operacional",
+      "pregunta": "¿Cómo es el ancho de banda de un Op-Amp ideal?",
+      "respuesta": "Infinito: puede amplificar cualquier frecuencia desde 0 Hz hasta el infinito."
+    },
+    {
+      "id": 125,
+      "tema": "Amplificador operacional",
+      "pregunta": "¿Desde qué frecuencia y hasta cuál puede amplificar un Op-Amp ideal?",
+      "respuesta": "Desde 0 Hz hasta el infinito."
+    },
+    {
+      "id": 126,
+      "tema": "Amplificador operacional",
+      "pregunta": "¿Qué significa que la ganancia sea de lazo abierto?",
+      "respuesta": "Que el amplificador no tiene ninguna conexión de retroalimentación entre su salida y sus entradas."
+    },
+    {
+      "id": 127,
+      "tema": "Amplificador operacional",
+      "pregunta": "¿Qué nombre recibe la patilla marcada con el signo menos (−)?",
+      "respuesta": "Entrada inversora: la señal aplicada en esta entrada se amplifica, pero invertida (con polaridad opuesta)."
+    },
+    {
+      "id": 128,
+      "tema": "Amplificador operacional",
+      "pregunta": "¿Qué le pasa a la señal aplicada en la entrada inversora?",
+      "respuesta": "Se amplifica, pero invertida (con polaridad opuesta)."
+    },
+    {
+      "id": 129,
+      "tema": "Amplificador operacional",
+      "pregunta": "¿Qué nombre recibe la patilla marcada con el signo más (+)?",
+      "respuesta": "Entrada no inversora: la señal aplicada en esta entrada se amplifica directamente."
+    },
+    {
+      "id": 130,
+      "tema": "Amplificador operacional",
+      "pregunta": "¿Qué le pasa a la señal aplicada en la entrada no inversora?",
+      "respuesta": "Se amplifica directamente, sin invertirse."
+    }
+  ]
+}

@@ -1,0 +1,852 @@
+{
+  "titulo": "Guía de Estudio - Estudio del Trabajo (Medio Curso)",
+  "total_preguntas": 141,
+  "preguntas": [
+    {
+      "id": 1,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Cuáles son las necesidades básicas relacionadas con la calidad de vida y la productividad?",
+      "respuesta": "Alimentación, vestido, alojamiento, seguridad, salud y servicios esenciales."
+    },
+    {
+      "id": 2,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Cuántas necesidades básicas se mencionan en el capítulo 1?",
+      "respuesta": "Seis: alimentación, vestido, alojamiento, seguridad, salud y servicios esenciales."
+    },
+    {
+      "id": 3,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Qué es la productividad?",
+      "respuesta": "Es la relación entre producción e insumo."
+    },
+    {
+      "id": 4,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Entre qué dos elementos es la relación que define la productividad?",
+      "respuesta": "Entre la producción y el insumo."
+    },
+    {
+      "id": 5,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Cuáles son los factores de insumo y producto en una empresa?",
+      "respuesta": "Terrenos y edificios, materiales, energía, máquinas y equipo, y recursos humanos."
+    },
+    {
+      "id": 6,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Cuántos factores de insumo y producto en una empresa se mencionan?",
+      "respuesta": "Cinco: terrenos y edificios, materiales, energía, máquinas y equipo, y recursos humanos."
+    },
+    {
+      "id": 7,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Qué otro insumo se incluye implícitamente además de los factores de la empresa?",
+      "respuesta": "El capital."
+    },
+    {
+      "id": 8,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Por qué el capital se incluye implícitamente como insumo?",
+      "respuesta": "Porque se emplea para financiar la compra de terrenos, maquinaria, equipo, materiales y trabajo, y para pagar los servicios prestados por los recursos humanos."
+    },
+    {
+      "id": 9,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Para qué se emplea el capital?",
+      "respuesta": "Para financiar la compra de terrenos, maquinaria, equipo, materiales y trabajo, y para pagar los servicios prestados por los recursos humanos."
+    },
+    {
+      "id": 10,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Qué funciones realiza la dirección para producir productos y servicios?",
+      "respuesta": "Obtiene los datos, planifica, dirige, coordina, controla y motiva."
+    },
+    {
+      "id": 11,
+      "tema": "Cap. 1 - Productividad y calidad de vida",
+      "pregunta": "¿Quién obtiene los datos, planifica, dirige, coordina, controla y motiva para producir productos y servicios?",
+      "respuesta": "La dirección."
+    },
+    {
+      "id": 12,
+      "tema": "Cap. 2 - Estudio del trabajo y productividad",
+      "pregunta": "¿Qué es el estudio del trabajo?",
+      "respuesta": "Es el examen sistemático de los métodos para realizar actividades con el fin de mejorar la utilización eficaz de los recursos y de establecer normas de rendimiento con respecto a las actividades que se están realizando."
+    },
+    {
+      "id": 13,
+      "tema": "Cap. 2 - Estudio del trabajo y productividad",
+      "pregunta": "¿Cuáles son los dos fines del estudio del trabajo?",
+      "respuesta": "Mejorar la utilización eficaz de los recursos y establecer normas de rendimiento con respecto a las actividades que se están realizando."
+    },
+    {
+      "id": 14,
+      "tema": "Cap. 2 - Estudio del trabajo y productividad",
+      "pregunta": "¿El estudio del trabajo es un examen sistemático de qué?",
+      "respuesta": "De los métodos para realizar actividades."
+    },
+    {
+      "id": 15,
+      "tema": "Cap. 2 - Estudio del trabajo y productividad",
+      "pregunta": "¿Qué es una hora de trabajo?",
+      "respuesta": "Es el trabajo de una persona en una hora."
+    },
+    {
+      "id": 16,
+      "tema": "Cap. 2 - Estudio del trabajo y productividad",
+      "pregunta": "¿Qué es una hora-máquina?",
+      "respuesta": "Es el funcionamiento de una máquina o de parte de una instalación durante una hora."
+    },
+    {
+      "id": 17,
+      "tema": "Cap. 2 - Estudio del trabajo y productividad",
+      "pregunta": "¿Cuál es la diferencia entre hora de trabajo y hora-máquina?",
+      "respuesta": "La hora de trabajo es el trabajo de una persona en una hora; la hora-máquina es el funcionamiento de una máquina o parte de una instalación durante una hora."
+    },
+    {
+      "id": 18,
+      "tema": "Cap. 2 - Estudio del trabajo y productividad",
+      "pregunta": "¿Qué es el contenido básico de trabajo?",
+      "respuesta": "Es el tiempo mínimo irreductible que se necesita teóricamente para obtener una unidad de producción."
+    },
+    {
+      "id": 19,
+      "tema": "Cap. 2 - Estudio del trabajo y productividad",
+      "pregunta": "¿Cómo se describe el tiempo del contenido básico de trabajo?",
+      "respuesta": "Como el tiempo mínimo irreductible, teóricamente necesario, para obtener una unidad de producción."
+    },
+    {
+      "id": 20,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "¿Cuáles son los tres tipos (causas) de contenido de trabajo suplementario?",
+      "respuesta": "1) Debido a deficiencias en el diseño o en la especificación del producto o de sus partes, o a la utilización inadecuada de los materiales; 2) debido a métodos ineficientes de producción o de funcionamiento; 3) resultante principalmente de la aportación de recursos humanos."
+    },
+    {
+      "id": 21,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "¿Qué causas componen el contenido de trabajo suplementario debido a deficiencias en el diseño o especificación del producto o a la utilización inadecuada de los materiales?",
+      "respuesta": "Deficiencia y cambios frecuentes del diseño, desechos de materiales y normas incorrectas de calidad."
+    },
+    {
+      "id": 22,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "¿Qué causas componen el contenido de trabajo suplementario debido a métodos ineficientes de producción o de funcionamiento?",
+      "respuesta": "Mala disposición y utilización del espacio, inadecuada manipulación de los materiales, método de trabajo ineficaz y mala planificación de las existencias."
+    },
+    {
+      "id": 23,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "¿Qué causas componen el contenido de trabajo resultante principalmente de la aportación de recursos humanos?",
+      "respuesta": "Absentismo y falta de puntualidad, mala ejecución del trabajo, y riesgo de accidentes y lesiones profesionales."
+    },
+    {
+      "id": 24,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "La deficiencia y cambios frecuentes del diseño, ¿a qué tipo de contenido de trabajo suplementario pertenece?",
+      "respuesta": "Al debido a deficiencias en el diseño o en la especificación del producto o a la utilización inadecuada de los materiales."
+    },
+    {
+      "id": 25,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "Los desechos de materiales, ¿a qué tipo de contenido de trabajo suplementario pertenecen?",
+      "respuesta": "Al debido a deficiencias en el diseño o en la especificación del producto o a la utilización inadecuada de los materiales."
+    },
+    {
+      "id": 26,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "Las normas incorrectas de calidad, ¿a qué tipo de contenido de trabajo suplementario pertenecen?",
+      "respuesta": "Al debido a deficiencias en el diseño o en la especificación del producto o a la utilización inadecuada de los materiales."
+    },
+    {
+      "id": 27,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "La mala disposición y utilización del espacio, ¿a qué tipo de contenido de trabajo suplementario pertenece?",
+      "respuesta": "Al debido a métodos ineficientes de producción o de funcionamiento."
+    },
+    {
+      "id": 28,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "La inadecuada manipulación de los materiales, ¿a qué tipo de contenido de trabajo suplementario pertenece?",
+      "respuesta": "Al debido a métodos ineficientes de producción o de funcionamiento."
+    },
+    {
+      "id": 29,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "El método de trabajo ineficaz, ¿a qué tipo de contenido de trabajo suplementario pertenece?",
+      "respuesta": "Al debido a métodos ineficientes de producción o de funcionamiento."
+    },
+    {
+      "id": 30,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "La mala planificación de las existencias, ¿a qué tipo de contenido de trabajo suplementario pertenece?",
+      "respuesta": "Al debido a métodos ineficientes de producción o de funcionamiento."
+    },
+    {
+      "id": 31,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "El absentismo y la falta de puntualidad, ¿a qué tipo de contenido de trabajo pertenecen?",
+      "respuesta": "Al contenido de trabajo resultante principalmente de la aportación de recursos humanos."
+    },
+    {
+      "id": 32,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "La mala ejecución del trabajo, ¿a qué tipo de contenido de trabajo pertenece?",
+      "respuesta": "Al contenido de trabajo resultante principalmente de la aportación de recursos humanos."
+    },
+    {
+      "id": 33,
+      "tema": "Cap. 2 - Contenido de trabajo suplementario",
+      "pregunta": "El riesgo de accidentes y lesiones profesionales, ¿a qué tipo de contenido de trabajo pertenece?",
+      "respuesta": "Al contenido de trabajo resultante principalmente de la aportación de recursos humanos."
+    },
+    {
+      "id": 34,
+      "tema": "Cap. 3 - Enfoque del estudio del trabajo",
+      "pregunta": "¿Qué es el estudio de métodos?",
+      "respuesta": "Es el registro y examen crítico sistemáticos de los modos de realizar actividades, con el fin de efectuar mejoras."
+    },
+    {
+      "id": 35,
+      "tema": "Cap. 3 - Enfoque del estudio del trabajo",
+      "pregunta": "¿Con qué fin se realiza el estudio de métodos?",
+      "respuesta": "Con el fin de efectuar mejoras."
+    },
+    {
+      "id": 36,
+      "tema": "Cap. 3 - Enfoque del estudio del trabajo",
+      "pregunta": "¿Qué es la medición del trabajo?",
+      "respuesta": "Es la aplicación de técnicas para determinar el tiempo que invierte un trabajador calificado en llevar a cabo una tarea según una norma de rendimiento preestablecida."
+    },
+    {
+      "id": 37,
+      "tema": "Cap. 3 - Enfoque del estudio del trabajo",
+      "pregunta": "¿Qué determina la medición del trabajo?",
+      "respuesta": "El tiempo que invierte un trabajador calificado en llevar a cabo una tarea según una norma de rendimiento preestablecida."
+    },
+    {
+      "id": 38,
+      "tema": "Cap. 3 - Enfoque del estudio del trabajo",
+      "pregunta": "¿Cuál es la diferencia entre el estudio de métodos y la medición del trabajo?",
+      "respuesta": "El estudio de métodos registra y examina críticamente los modos de realizar actividades para mejorarlas; la medición del trabajo determina el tiempo que invierte un trabajador calificado en una tarea según una norma de rendimiento preestablecida."
+    },
+    {
+      "id": 39,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿Cuántas etapas fundamentales hay que recorrer para realizar un estudio del trabajo completo?",
+      "respuesta": "Ocho etapas."
+    },
+    {
+      "id": 40,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿Cuáles son las ocho etapas del procedimiento básico para el estudio del trabajo, en orden?",
+      "respuesta": "1) Seleccionar, 2) Registrar, 3) Examinar, 4) Establecer, 5) Evaluar, 6) Definir, 7) Implantar, 8) Controlar."
+    },
+    {
+      "id": 41,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿En qué consiste la etapa 1 (Seleccionar)?",
+      "respuesta": "En seleccionar el trabajo o proceso que se ha de estudiar."
+    },
+    {
+      "id": 42,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿En qué consiste la etapa 2 (Registrar)?",
+      "respuesta": "En registrar o recolectar todos los datos relevantes acerca de la tarea o proceso, utilizando las técnicas más apropiadas y disponiendo los datos en la forma más cómoda para analizarlos."
+    },
+    {
+      "id": 43,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿En qué consiste la etapa 3 (Examinar)?",
+      "respuesta": "En examinar los hechos registrados con espíritu crítico, preguntándose si se justifica lo que se hace, según el propósito de la actividad, el lugar donde se lleva a cabo, el orden en que se ejecuta, quién la ejecuta y los medios empleados."
+    },
+    {
+      "id": 44,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "En la etapa de examinar, ¿qué aspectos se analizan para ver si se justifica lo que se hace?",
+      "respuesta": "El propósito de la actividad, el lugar donde se lleva a cabo, el orden en que se ejecuta, quién la ejecuta y los medios empleados."
+    },
+    {
+      "id": 45,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿Con qué espíritu se examinan los hechos registrados?",
+      "respuesta": "Con espíritu crítico."
+    },
+    {
+      "id": 46,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿En qué consiste la etapa 4 (Establecer)?",
+      "respuesta": "En establecer el método más económico, teniendo en cuenta todas las circunstancias y utilizando las diversas técnicas de gestión, así como los aportes de dirigentes, supervisores, trabajadores y otros especialistas, cuyos enfoques deben analizarse y discutirse."
+    },
+    {
+      "id": 47,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿De quiénes se toman aportes al establecer el método más económico?",
+      "respuesta": "De dirigentes, supervisores, trabajadores y otros especialistas."
+    },
+    {
+      "id": 48,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿Qué método se busca establecer en la etapa 4?",
+      "respuesta": "El método más económico."
+    },
+    {
+      "id": 49,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿En qué consiste la etapa 5 (Evaluar)?",
+      "respuesta": "En evaluar los resultados obtenidos con el nuevo método en comparación con la cantidad de trabajo necesario y establecer un tiempo tipo."
+    },
+    {
+      "id": 50,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿En qué etapa se establece un tiempo tipo?",
+      "respuesta": "En la etapa 5, Evaluar."
+    },
+    {
+      "id": 51,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿En qué consiste la etapa 6 (Definir)?",
+      "respuesta": "En definir el nuevo método y el tiempo correspondiente, y presentarlo, ya sea verbalmente o por escrito, a todas las personas a quienes concierne, utilizando demostraciones."
+    },
+    {
+      "id": 52,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿Cómo se presenta el nuevo método en la etapa de definir?",
+      "respuesta": "Verbalmente o por escrito, a todas las personas a quienes concierne, utilizando demostraciones."
+    },
+    {
+      "id": 53,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿En qué consiste la etapa 7 (Implantar)?",
+      "respuesta": "En implantar el nuevo método, formando a las personas interesadas, como práctica general aceptada con el tiempo fijado."
+    },
+    {
+      "id": 54,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿En qué consiste la etapa 8 (Controlar)?",
+      "respuesta": "En controlar la aplicación de la nueva norma siguiendo los resultados obtenidos y comparándolos con los objetivos."
+    },
+    {
+      "id": 55,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿Cuál es la primera etapa del procedimiento básico?",
+      "respuesta": "Seleccionar el trabajo o proceso que se ha de estudiar."
+    },
+    {
+      "id": 56,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿Cuál es la última etapa del procedimiento básico?",
+      "respuesta": "Controlar la aplicación de la nueva norma."
+    },
+    {
+      "id": 57,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿Qué etapa va después de Examinar?",
+      "respuesta": "Establecer el método más económico."
+    },
+    {
+      "id": 58,
+      "tema": "Cap. 3 - Procedimiento básico",
+      "pregunta": "¿Qué etapa va antes de Implantar?",
+      "respuesta": "Definir el nuevo método y el tiempo correspondiente."
+    },
+    {
+      "id": 59,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Por qué el factor humano es uno de los elementos más fundamentales en las actividades de la empresa?",
+      "respuesta": "Porque es por medio de personas como la dirección puede controlar la utilización de sus recursos y la venta de sus productos o servicios."
+    },
+    {
+      "id": 60,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Por medio de qué controla la dirección la utilización de sus recursos y la venta de sus productos o servicios?",
+      "respuesta": "Por medio de las personas (el factor humano)."
+    },
+    {
+      "id": 61,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Cuál es tal vez el problema más difícil del especialista en estudio del trabajo?",
+      "respuesta": "La actitud de los capataces y jefes de taller."
+    },
+    {
+      "id": 62,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Cuáles son los niveles de la jerarquía de las necesidades de Maslow?",
+      "respuesta": "Fisiológicas, seguridad, integración, individuación y autorrealización."
+    },
+    {
+      "id": 63,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Cuál es el primer nivel (base) de la jerarquía de Maslow?",
+      "respuesta": "Las necesidades fisiológicas."
+    },
+    {
+      "id": 64,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Cuál es el último nivel (cima) de la jerarquía de Maslow?",
+      "respuesta": "La autorrealización."
+    },
+    {
+      "id": 65,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Cuántos niveles tiene la jerarquía de necesidades de Maslow según la guía?",
+      "respuesta": "Cinco."
+    },
+    {
+      "id": 66,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Qué necesidad de Maslow va después de la seguridad?",
+      "respuesta": "La integración."
+    },
+    {
+      "id": 67,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Qué necesidad de Maslow va antes de la autorrealización?",
+      "respuesta": "La individuación."
+    },
+    {
+      "id": 68,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Cuáles son las cualidades personales de un buen especialista en estudio del trabajo?",
+      "respuesta": "Sinceridad y honradez, entusiasmo, interés humano y don de gentes, tacto, buena presencia y confianza en sí mismo."
+    },
+    {
+      "id": 69,
+      "tema": "Cap. 4 - Factor humano",
+      "pregunta": "¿Cuántas cualidades personales de un buen especialista en estudio del trabajo se mencionan?",
+      "respuesta": "Seis: sinceridad y honradez, entusiasmo, interés humano y don de gentes, tacto, buena presencia y confianza en sí mismo."
+    },
+    {
+      "id": 70,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "¿De qué se ocupa la ergonomía?",
+      "respuesta": "De a) el estudio del operario individual o del equipo de trabajo, y b) la facilitación de datos para el diseño."
+    },
+    {
+      "id": 71,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "¿Cuáles son los objetivos de la ergonomía?",
+      "respuesta": "Promover la eficacia funcional, al mismo tiempo que mantiene o mejora el bienestar humano."
+    },
+    {
+      "id": 72,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "¿Qué dos cosas busca equilibrar la ergonomía?",
+      "respuesta": "La eficacia funcional y el bienestar humano."
+    },
+    {
+      "id": 73,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "¿Qué es el horario escalonado?",
+      "respuesta": "Es un método que contribuye a superar la congestión debida a las llegadas y salidas simultáneas de los trabajadores, y alarga el tiempo de explotación."
+    },
+    {
+      "id": 74,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "¿Qué problema ayuda a superar el horario escalonado?",
+      "respuesta": "La congestión debida a las llegadas y salidas simultáneas de los trabajadores."
+    },
+    {
+      "id": 75,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "Además de reducir la congestión, ¿qué otro efecto tiene el horario escalonado?",
+      "respuesta": "Alarga el tiempo de explotación."
+    },
+    {
+      "id": 76,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "¿Qué es el horario flexible?",
+      "respuesta": "Es aquel en que las horas de entrada y salida y la hora de la pausa para el almuerzo pueden ser decididas libremente por los empleados, a condición de que todos estén presentes al mismo tiempo durante unas horas."
+    },
+    {
+      "id": 77,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "En el horario flexible, ¿qué pueden decidir libremente los empleados?",
+      "respuesta": "Las horas de entrada y salida y la hora de la pausa para el almuerzo."
+    },
+    {
+      "id": 78,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "¿Cuál es la condición del horario flexible?",
+      "respuesta": "Que todos los empleados estén presentes al mismo tiempo durante unas horas."
+    },
+    {
+      "id": 79,
+      "tema": "Cap. 5 - Condiciones y medio ambiente de trabajo",
+      "pregunta": "¿Cuál es la diferencia entre horario escalonado y horario flexible?",
+      "respuesta": "El escalonado evita la congestión de llegadas y salidas simultáneas y alarga el tiempo de explotación; en el flexible los empleados deciden libremente entrada, salida y almuerzo, siempre que coincidan todos durante unas horas."
+    },
+    {
+      "id": 80,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿Cuáles son los tres factores que se deben tener presentes al elegir una tarea?",
+      "respuesta": "1) Consideraciones económicas o de eficiencia en función de los costos; 2) consideraciones técnicas; 3) consideraciones humanas."
+    },
+    {
+      "id": 81,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿Qué son las consideraciones económicas al elegir una tarea?",
+      "respuesta": "Consideraciones de eficiencia en función de los costos."
+    },
+    {
+      "id": 82,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿Qué es el análisis de Pareto?",
+      "respuesta": "Es un análisis cuyo nombre se deriva de un economista italiano que advirtió que a menudo un pequeño número de partidas de un conjunto de productos representa el máximo valor."
+    },
+    {
+      "id": 83,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿De dónde deriva el nombre del análisis de Pareto?",
+      "respuesta": "De un economista italiano (Pareto)."
+    },
+    {
+      "id": 84,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿Qué advirtió el economista del que proviene el análisis de Pareto?",
+      "respuesta": "Que a menudo un pequeño número de partidas de un conjunto de productos representa el máximo valor."
+    },
+    {
+      "id": 85,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿De qué nacionalidad y profesión era Pareto?",
+      "respuesta": "Era un economista italiano."
+    },
+    {
+      "id": 86,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿Cuál es una de las consideraciones técnicas o tecnológicas importantes al elegir una tarea?",
+      "respuesta": "El deseo de la dirección de adquirir una tecnología más avanzada, sea en equipo o en procedimientos."
+    },
+    {
+      "id": 87,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿En qué puede consistir la tecnología más avanzada que desea adquirir la dirección?",
+      "respuesta": "En equipo o en procedimientos."
+    },
+    {
+      "id": 88,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿Qué son las consideraciones humanas al elegir una tarea?",
+      "respuesta": "Que ciertas actividades causan frecuentemente la insatisfacción de los trabajadores; pueden provocar fatiga o monotonía o resultar poco seguras o desatinadas."
+    },
+    {
+      "id": 89,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿Qué pueden provocar ciertas actividades que causan insatisfacción en los trabajadores?",
+      "respuesta": "Fatiga o monotonía, o pueden resultar poco seguras o desatinadas."
+    },
+    {
+      "id": 90,
+      "tema": "Cap. 6 - Estudio de métodos y selección de trabajos",
+      "pregunta": "¿Cuál es una de las primeras decisiones que ha de adoptar un especialista en el estudio del trabajo?",
+      "respuesta": "Definir exactamente el tipo de trabajo que se va a estudiar, fijar sus límites y señalar qué abarcará exactamente."
+    },
+    {
+      "id": 91,
+      "tema": "Cap. 7 - Registrar, examinar e idear",
+      "pregunta": "Después de elegir el trabajo que se va a estudiar, ¿cuál es la siguiente etapa del procedimiento básico?",
+      "respuesta": "Registrar todos los hechos relativos al método existente."
+    },
+    {
+      "id": 92,
+      "tema": "Cap. 7 - Registrar, examinar e idear",
+      "pregunta": "¿Qué técnicas o instrumentos de anotación se idearon para registrar información detallada con precisión y en forma estandarizada?",
+      "respuesta": "Gráficos y diagramas."
+    },
+    {
+      "id": 93,
+      "tema": "Cap. 7 - Registrar, examinar e idear",
+      "pregunta": "¿Cuáles son los tres grupos de gráficos y diagramas para registrar?",
+      "respuesta": "A. Gráficos que indican la sucesión de los hechos; B. Gráficos con escala de tiempo; C. Diagramas que indican movimiento."
+    },
+    {
+      "id": 94,
+      "tema": "Cap. 7 - Registrar, examinar e idear",
+      "pregunta": "¿Qué indican los gráficos del grupo A?",
+      "respuesta": "La sucesión de los hechos."
+    },
+    {
+      "id": 95,
+      "tema": "Cap. 7 - Registrar, examinar e idear",
+      "pregunta": "¿Qué característica tienen los gráficos del grupo B?",
+      "respuesta": "Tienen escala de tiempo."
+    },
+    {
+      "id": 96,
+      "tema": "Cap. 7 - Registrar, examinar e idear",
+      "pregunta": "¿Qué indican los diagramas del grupo C?",
+      "respuesta": "Movimiento."
+    },
+    {
+      "id": 97,
+      "tema": "Cap. 7 - Registrar, examinar e idear",
+      "pregunta": "¿Cuáles son las dos actividades principales de un proceso?",
+      "respuesta": "La operación y la inspección."
+    },
+    {
+      "id": 98,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Cuáles son los símbolos usados para registrar actividades?",
+      "respuesta": "Operación (círculo), inspección (cuadrado), transporte (flecha), depósito provisional o espera (D) y almacenamiento permanente (triángulo invertido); además, actividades combinadas (símbolos superpuestos)."
+    },
+    {
+      "id": 99,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué símbolo representa la operación?",
+      "respuesta": "Un círculo."
+    },
+    {
+      "id": 100,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué indica el símbolo de operación?",
+      "respuesta": "Indica las principales fases del proceso, método o procedimiento. Por lo común, la pieza, materia o producto del caso se modifica o cambia durante la operación."
+    },
+    {
+      "id": 101,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué le sucede por lo común a la pieza, materia o producto durante una operación?",
+      "respuesta": "Se modifica o cambia."
+    },
+    {
+      "id": 102,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué símbolo representa la inspección?",
+      "respuesta": "Un cuadrado."
+    },
+    {
+      "id": 103,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué indica el símbolo de inspección?",
+      "respuesta": "La inspección de la calidad y/o la verificación de la cantidad."
+    },
+    {
+      "id": 104,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué símbolo representa el transporte?",
+      "respuesta": "Una flecha."
+    },
+    {
+      "id": 105,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué indica el símbolo de transporte?",
+      "respuesta": "El movimiento de los trabajadores, materiales y equipo de un lugar a otro."
+    },
+    {
+      "id": 106,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué símbolo representa el depósito provisional o espera?",
+      "respuesta": "Una letra D mayúscula."
+    },
+    {
+      "id": 107,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué indica el símbolo de depósito provisional o espera?",
+      "respuesta": "Indica demora en el desarrollo de los hechos: por ejemplo, trabajo en suspenso entre dos operaciones sucesivas, o abandono momentáneo, no registrado, de cualquier objeto hasta que se necesite."
+    },
+    {
+      "id": 108,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "Da ejemplos de depósito provisional o espera.",
+      "respuesta": "Trabajo en suspenso entre dos operaciones sucesivas, o abandono momentáneo, no registrado, de cualquier objeto hasta que se necesite."
+    },
+    {
+      "id": 109,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué símbolo representa el almacenamiento permanente?",
+      "respuesta": "Un triángulo invertido (con la punta hacia abajo)."
+    },
+    {
+      "id": 110,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué indica el símbolo de almacenamiento permanente?",
+      "respuesta": "Indica depósito de un objeto bajo vigilancia en un almacén donde se lo recibe o entrega mediante alguna forma de autorización o donde se guarda con fines de referencia."
+    },
+    {
+      "id": 111,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Cuál es la diferencia entre depósito provisional (espera) y almacenamiento permanente?",
+      "respuesta": "La espera es una demora momentánea, no registrada, hasta que se necesite el objeto; el almacenamiento permanente es un depósito bajo vigilancia en un almacén, con recepción o entrega mediante autorización o con fines de referencia."
+    },
+    {
+      "id": 112,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Qué son las actividades combinadas?",
+      "respuesta": "Cuando se desea indicar que varias actividades son ejecutadas al mismo tiempo o por el mismo operario en un mismo lugar de trabajo, se combinan los símbolos de tales actividades."
+    },
+    {
+      "id": 113,
+      "tema": "Cap. 7 - Símbolos",
+      "pregunta": "¿Cómo se representa en el diagrama una actividad combinada de operación e inspección?",
+      "respuesta": "Con un círculo dentro de un cuadrado (se combinan los símbolos)."
+    },
+    {
+      "id": 114,
+      "tema": "Cap. 7 - Cursogramas",
+      "pregunta": "¿Qué es el cursograma sinóptico?",
+      "respuesta": "Es un diagrama que presenta un cuadro general de cómo se suceden tan sólo las principales operaciones e inspecciones."
+    },
+    {
+      "id": 115,
+      "tema": "Cap. 7 - Cursogramas",
+      "pregunta": "¿Qué actividades muestra el cursograma sinóptico?",
+      "respuesta": "Tan sólo las principales operaciones e inspecciones."
+    },
+    {
+      "id": 116,
+      "tema": "Cap. 7 - Cursogramas",
+      "pregunta": "¿Qué es el cursograma analítico?",
+      "respuesta": "Es un diagrama que muestra la trayectoria de un producto o procedimiento señalando todos los hechos sujetos a examen mediante el símbolo que corresponda."
+    },
+    {
+      "id": 117,
+      "tema": "Cap. 7 - Cursogramas",
+      "pregunta": "¿Cuál es la diferencia entre el cursograma sinóptico y el analítico?",
+      "respuesta": "El sinóptico muestra solo las principales operaciones e inspecciones; el analítico muestra la trayectoria completa señalando todos los hechos sujetos a examen con su símbolo."
+    },
+    {
+      "id": 118,
+      "tema": "Cap. 7 - Cursogramas",
+      "pregunta": "¿Qué es el cursograma de operario?",
+      "respuesta": "Diagrama en donde se registra lo que hace la persona que trabaja."
+    },
+    {
+      "id": 119,
+      "tema": "Cap. 7 - Cursogramas",
+      "pregunta": "¿Qué es el cursograma de material?",
+      "respuesta": "Diagrama en donde se registra cómo se manipula o trata el material."
+    },
+    {
+      "id": 120,
+      "tema": "Cap. 7 - Cursogramas",
+      "pregunta": "¿Qué es el cursograma de equipo?",
+      "respuesta": "Diagrama en donde se registra cómo se usa el equipo."
+    },
+    {
+      "id": 121,
+      "tema": "Cap. 7 - Cursogramas",
+      "pregunta": "¿Cuáles son los tres tipos de cursograma analítico según lo que se registra?",
+      "respuesta": "Cursograma de operario (lo que hace la persona), de material (cómo se manipula o trata el material) y de equipo (cómo se usa el equipo)."
+    },
+    {
+      "id": 122,
+      "tema": "Cap. 7 - Técnica del interrogatorio",
+      "pregunta": "¿Qué es la técnica del interrogatorio?",
+      "respuesta": "Es el medio de efectuar el examen crítico sometiendo sucesivamente cada actividad a una serie sistemática y progresiva de preguntas."
+    },
+    {
+      "id": 123,
+      "tema": "Cap. 7 - Técnica del interrogatorio",
+      "pregunta": "¿Qué se averigua con las preguntas de la técnica del interrogatorio y en qué orden?",
+      "respuesta": "El propósito, el lugar, la sucesión, la persona y los medios."
+    },
+    {
+      "id": 124,
+      "tema": "Cap. 7 - Técnica del interrogatorio",
+      "pregunta": "¿Cuál es el primer aspecto que se averigua en la técnica del interrogatorio?",
+      "respuesta": "El propósito."
+    },
+    {
+      "id": 125,
+      "tema": "Cap. 7 - Técnica del interrogatorio",
+      "pregunta": "¿Cuál es el último aspecto que se averigua en la técnica del interrogatorio?",
+      "respuesta": "Los medios."
+    },
+    {
+      "id": 126,
+      "tema": "Cap. 7 - Técnica del interrogatorio",
+      "pregunta": "¿En qué orden se hacen las preguntas del interrogatorio?",
+      "respuesta": "En un orden bien determinado."
+    },
+    {
+      "id": 127,
+      "tema": "Cap. 7 - Técnica del interrogatorio",
+      "pregunta": "¿Qué son las preguntas de fondo?",
+      "respuesta": "Son la segunda fase del interrogatorio: prolongan y detallan las preguntas preliminares para determinar si, a fin de mejorar el método empleado, sería factible y preferible reemplazar por otro el lugar, la sucesión, la persona y/o los medios."
+    },
+    {
+      "id": 128,
+      "tema": "Cap. 7 - Técnica del interrogatorio",
+      "pregunta": "¿Qué fase del interrogatorio son las preguntas de fondo?",
+      "respuesta": "La segunda fase."
+    },
+    {
+      "id": 129,
+      "tema": "Cap. 7 - Técnica del interrogatorio",
+      "pregunta": "¿Qué preguntas prolongan y detallan las preguntas de fondo?",
+      "respuesta": "Las preguntas preliminares."
+    },
+    {
+      "id": 130,
+      "tema": "Cap. 7 - Técnica del interrogatorio",
+      "pregunta": "¿Qué elementos se evalúa reemplazar con las preguntas de fondo?",
+      "respuesta": "El lugar, la sucesión, la persona y/o los medios."
+    },
+    {
+      "id": 131,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Qué es el diagrama de hilos?",
+      "respuesta": "Es un plano o modelo a escala en que se sigue y mide con un hilo el trayecto de los trabajadores, de los materiales o del equipo durante una sucesión determinada de hechos."
+    },
+    {
+      "id": 132,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Con qué se sigue y mide el trayecto en el diagrama de hilos?",
+      "respuesta": "Con un hilo, sobre un plano o modelo a escala."
+    },
+    {
+      "id": 133,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Qué trayectos se registran en el diagrama de hilos?",
+      "respuesta": "El trayecto de los trabajadores, de los materiales o del equipo."
+    },
+    {
+      "id": 134,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Qué es el diagrama de actividades múltiples?",
+      "respuesta": "Es un diagrama en que se registran las respectivas actividades de varios objetos de estudio (operario, máquina o equipo) según una escala de tiempos común para mostrar la correlación entre ellas."
+    },
+    {
+      "id": 135,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Qué objetos de estudio se registran en el diagrama de actividades múltiples?",
+      "respuesta": "Operario, máquina o equipo."
+    },
+    {
+      "id": 136,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Para qué se usa una escala de tiempos común en el diagrama de actividades múltiples?",
+      "respuesta": "Para mostrar la correlación entre las actividades de los distintos objetos de estudio."
+    },
+    {
+      "id": 137,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Qué problema puede tener el diagrama de hilos cuando los movimientos son muy numerosos?",
+      "respuesta": "Puede acabar en una maraña de hilos entrecruzados."
+    },
+    {
+      "id": 138,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Qué técnica conviene usar cuando los movimientos son muy numerosos y siguen trayectos complicados?",
+      "respuesta": "El gráfico de trayectoria, que es una técnica de registro más rápida y más cómoda."
+    },
+    {
+      "id": 139,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Qué es el gráfico de trayectoria?",
+      "respuesta": "Es un cuadro donde se consignan datos cuantitativos sobre los movimientos de trabajadores, materiales o equipo entre cualquier número de lugares durante cualquier período dado de tiempo."
+    },
+    {
+      "id": 140,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Qué tipo de datos se consignan en el gráfico de trayectoria?",
+      "respuesta": "Datos cuantitativos sobre los movimientos."
+    },
+    {
+      "id": 141,
+      "tema": "Cap. 8 - Desplazamiento de los trabajadores",
+      "pregunta": "¿Cuál es la diferencia entre el diagrama de hilos y el gráfico de trayectoria?",
+      "respuesta": "El diagrama de hilos sigue y mide con un hilo el trayecto sobre un plano a escala; el gráfico de trayectoria es un cuadro con datos cuantitativos de los movimientos, más rápido y cómodo cuando hay muchos movimientos complicados."
+    }
+  ]
+}
