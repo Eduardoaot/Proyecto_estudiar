@@ -72,21 +72,31 @@ final class PantallaTemas extends JPanel implements Pantalla {
     private void abrir(String tema) {
         List<Pregunta> ps = materia.preguntasDe(tema);
         String clave = Progreso.clave(materia, tema);
-        Progreso.Resumen r = Progreso.resumen(clave, ps.size());
+        Progreso.Resumen r = Progreso.resumen(clave, ps.size(), tema == null);
         if (r.terminado()) {
-            app.mostrar(new PantallaFin(app, materia, tema, Progreso.cargar(clave, ps.size())), 1);
+            app.mostrar(new PantallaFin(app, materia, tema, Progreso.cargar(clave, ps.size(), tema == null)), 1);
         } else {
             app.mostrar(new PantallaEstudio(app, materia, tema), 1);
         }
     }
 
-    /** Abre el módulo directamente en su examen final. */
+    /** Abre el módulo en su examen final, retomando el que estuviera a medias. */
     private void examinar(String tema) {
         List<Pregunta> ps = materia.preguntasDe(tema);
+        String clave = Progreso.clave(materia, tema);
+        // Un examen a medias se continúa donde se dejó, sin preguntar ni reiniciar la cuenta.
+        if (Progreso.resumen(clave, ps.size(), tema == null).examenEnCurso()) {
+            app.mostrar(new PantallaEstudio(app, materia, tema), 1);
+            return;
+        }
         String nombre = tema == null ? "todo el temario" : "“" + tema + "”";
+        String alFallar = tema == null
+                ? "si fallas una, la repites hasta acertarla " + Motor.RETIRO_TEMARIO
+                        + " veces seguidas y el examen sigue donde estaba."
+                : "si fallas una, vuelves a la práctica.";
         if (UI.confirmar(this, "¿Hacer el examen final?",
-                "Responderás las " + ps.size() + " preguntas de " + nombre + " seguidas y sin fallar. "
-                        + "No hace falta haber practicado; si fallas una, vuelves a la práctica.", "Empezar examen")) {
+                "Responderás las " + ps.size() + " preguntas de " + nombre + " seguidas. "
+                        + "No hace falta haber practicado; " + alFallar, "Empezar examen")) {
             app.mostrar(new PantallaEstudio(app, materia, tema, true), 1);
         }
     }
@@ -102,7 +112,7 @@ final class PantallaTemas extends JPanel implements Pantalla {
                 "Se borrará tu avance en " + nombre + ". Empezarás otra vez desde la primera pregunta. "
                         + "Si ya lo habías completado, la etiqueta se conserva.", "Reiniciar")) {
             Progreso.borrar(Progreso.clave(materia, tema));
-            tarjeta.setResumen(Progreso.resumen(Progreso.clave(materia, tema), tarjeta.total), true);
+            tarjeta.setResumen(Progreso.resumen(Progreso.clave(materia, tema), tarjeta.total, tema == null), true);
         }
     }
 
@@ -111,12 +121,12 @@ final class PantallaTemas extends JPanel implements Pantalla {
         app.setAcento(materia.acento1, materia.acento2);
         entrada.fijar(0);
         entrada.ir(1, 500);
-        todo.setResumen(Progreso.resumen(Progreso.clave(materia, null), materia.preguntas.size()), false);
+        todo.setResumen(Progreso.resumen(Progreso.clave(materia, null), materia.preguntas.size(), true), false);
         todo.aparecer(80);
         for (int i = 0; i < tarjetas.size(); i++) {
             String t = temas.get(i);
             TarjetaTema tt = tarjetas.get(i);
-            tt.setResumen(Progreso.resumen(Progreso.clave(materia, t), tt.total), false);
+            tt.setResumen(Progreso.resumen(Progreso.clave(materia, t), tt.total, false), false);
             tt.aparecer(160 + Math.min(i, 24) * 28);
         }
     }

@@ -11,10 +11,16 @@ import java.util.Properties;
 final class Progreso {
     private Progreso() {}
 
-    record Resumen(int dominadas, int total, boolean terminado, boolean existe, boolean completado) {
+    record Resumen(int dominadas, int total, boolean terminado, boolean existe, boolean completado,
+                   boolean enExamen, int examenIndice) {
         double fraccion() {
             if (terminado) return 1;
             return total == 0 ? 0 : dominadas / (double) total;
+        }
+
+        /** Hay un examen final a medias que se puede retomar donde se dejó. */
+        boolean examenEnCurso() {
+            return enExamen && !terminado;
         }
     }
 
@@ -78,9 +84,10 @@ final class Progreso {
         }
     }
 
-    static Motor cargar(String clave, int total) {
+    /** {@code temarioCompleto} distingue el módulo "Todo el temario" (tema nulo) de un tema suelto. */
+    static Motor cargar(String clave, int total, boolean temarioCompleto) {
         Properties p = leer(archivo(clave));
-        return p.isEmpty() ? new Motor(total) : Motor.importar(p, total);
+        return p.isEmpty() ? new Motor(total, temarioCompleto) : Motor.importar(p, total, temarioCompleto);
     }
 
     static void guardar(String clave, Motor m) {
@@ -95,12 +102,13 @@ final class Progreso {
         }
     }
 
-    static Resumen resumen(String clave, int total) {
+    static Resumen resumen(String clave, int total, boolean temarioCompleto) {
         boolean completado = completado(clave);
         Path ruta = archivo(clave);
-        if (!Files.isRegularFile(ruta)) return new Resumen(0, total, false, false, completado);
-        Motor m = Motor.importar(leer(ruta), total);
-        return new Resumen(m.dominadas(), total, m.terminado(), m.desbloqueadas() > 0, completado);
+        if (!Files.isRegularFile(ruta)) return new Resumen(0, total, false, false, completado, false, 0);
+        Motor m = Motor.importar(leer(ruta), total, temarioCompleto);
+        return new Resumen(m.dominadas(), total, m.terminado(), m.desbloqueadas() > 0, completado,
+                m.enExamen(), m.examenIndice());
     }
 
     private static Path archivoCompletados() {
@@ -142,7 +150,7 @@ final class Progreso {
         boolean todoCompletado = sellos.getProperty(claveTodo) != null;
         Path rutaTodo = archivo(claveTodo);
         if (Files.isRegularFile(rutaTodo)) {
-            Motor motor = Motor.importar(leer(rutaTodo), todas.size());
+            Motor motor = Motor.importar(leer(rutaTodo), todas.size(), true);
             if (motor.desbloqueadas() > 0) existe = true;
             if (motor.terminado()) todoCompletado = true;
             for (int i = 0; i < todas.size(); i++) if (motor.dominada(i)) dominadas[i] = true;
@@ -157,7 +165,7 @@ final class Progreso {
             boolean completado = sellos.getProperty(c) != null;
             Path ruta = archivo(c);
             if (Files.isRegularFile(ruta)) {
-                Motor motor = Motor.importar(leer(ruta), globales.size());
+                Motor motor = Motor.importar(leer(ruta), globales.size(), false);
                 if (motor.desbloqueadas() > 0) existe = true;
                 if (motor.terminado()) completado = true;
                 for (int k = 0; k < globales.size(); k++) if (motor.dominada(k)) dominadas[globales.get(k)] = true;

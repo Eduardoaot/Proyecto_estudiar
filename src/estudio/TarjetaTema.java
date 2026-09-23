@@ -33,7 +33,7 @@ final class TarjetaTema extends JComponent {
         this.total = total;
         this.grande = grande;
         this.materia = materia;
-        this.resumen = new Progreso.Resumen(0, total, false, false, false);
+        this.resumen = new Progreso.Resumen(0, total, false, false, false, false, 0);
         setOpaque(false);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         MouseAdapter m = new MouseAdapter() {
@@ -108,7 +108,8 @@ final class TarjetaTema extends JComponent {
         RoundRectangle2D forma = new RoundRectangle2D.Double(x, y, w, h, 22, 22);
         Estilo.halo(g2, forma, Estilo.alfa(materia.acento1, 80), 10, hv);
         String firma = "tema:" + materia.clave + ':' + titulo + ':' + grande + ':'
-                + resumen.dominadas() + ':' + resumen.existe() + ':' + resumen.terminado() + ':' + resumen.completado();
+                + resumen.dominadas() + ':' + resumen.existe() + ':' + resumen.terminado() + ':' + resumen.completado()
+                + ':' + resumen.examenEnCurso() + ':' + resumen.examenIndice();
         Cache.dibujar(g2, firma, x, y, w, h, gc -> pintarBase(gc, w, h));
         if (hv > 0.01) {
             g2.setColor(new Color(255, 255, 255, (int) (12 * hv)));
@@ -154,7 +155,8 @@ final class TarjetaTema extends JComponent {
             gp.setFont(Estilo.fuente(Estilo.NORMAL, 13f));
             gp.setColor(Estilo.TEXTO_SUAVE);
             String cantidad = total + (total == 1 ? " pregunta" : " preguntas");
-            if (resumen.existe()) cantidad = resumen.dominadas() + " de " + total + " dominadas";
+            if (resumen.examenEnCurso()) cantidad = "Examen: " + resumen.examenIndice() + " de " + total + " seguidas";
+            else if (resumen.existe()) cantidad = resumen.dominadas() + " de " + total + " dominadas";
             gp.drawString(cantidad, (float) (x + pad), (float) (pieY - 12));
             gp.setFont(Estilo.fuente(Estilo.SEMI, 13f));
             FontMetrics fmp = gp.getFontMetrics();
@@ -165,7 +167,8 @@ final class TarjetaTema extends JComponent {
         }
         // Píldoras: examen final y, si ya se completó, las respuestas
         if (hv2 > 0.01) {
-            double derecha = pildora(g2, "Examen", x + w - pad, pieY, hv2, hoverExamen.get(), Estilo.EXITO, zonaExamen);
+            String textoExamen = resumen.examenEnCurso() ? "Continuar examen" : "Examen";
+            double derecha = pildora(g2, textoExamen, x + w - pad, pieY, hv2, hoverExamen.get(), Estilo.EXITO, zonaExamen);
             if (resumen.completado()) {
                 pildora(g2, "Respuestas", derecha - 8, pieY, hv2, hoverRespuestas.get(), materia.acento1, zonaRespuestas);
             } else {
@@ -205,6 +208,7 @@ final class TarjetaTema extends JComponent {
 
     private String estado() {
         if (resumen.terminado() || resumen.completado()) return "COMPLETADO";
+        if (resumen.examenEnCurso()) return "EXAMEN";
         return resumen.existe() ? "EN CURSO" : "NUEVO";
     }
 

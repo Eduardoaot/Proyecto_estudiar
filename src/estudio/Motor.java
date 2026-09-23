@@ -12,25 +12,35 @@ import java.util.stream.Collectors;
  *   <li>Antes de cada pregunta nueva se repasan las que aún no están dominadas (repaso acumulativo).</li>
  *   <li>Si el foco se falla, se repasan las demás y vuelve a salir al final de la ronda.</li>
  *   <li>Cualquier otra pregunta fallada vuelve a salir después de {@value #SEPARACION} preguntas.</li>
- *   <li>Con {@value #MAX_FALLADAS} falladas activas no se desbloquean nuevas; al acertar una se libera espacio.</li>
- *   <li>Con {@value #RETIRO} aciertos seguidos la pregunta queda dominada y sale del repaso. Un fallo
- *       pone su contador a cero.</li>
+ *   <li>Con {@value #MAX_ACTIVAS} preguntas activas no se desbloquean nuevas. Activa es toda pregunta
+ *       desbloqueada que aún no está dominada, esté fallada o solo en repaso; al dominar una se
+ *       libera el hueco.</li>
+ *   <li>Con {@code retiro} aciertos seguidos la pregunta queda dominada y sale del repaso. Un fallo
+ *       pone su contador a cero. Son {@value #RETIRO_TEMA} en un tema y {@value #RETIRO_TEMARIO} en
+ *       el temario completo.</li>
  *   <li>Cuando todas están dominadas llega el examen final: las {@code total} preguntas seguidas y
- *       correctas, en orden aleatorio. Un fallo reinicia el examen (con otro orden) y devuelve esa
- *       pregunta al repaso.</li>
+ *       correctas, en orden aleatorio.</li>
+ *   <li>Al fallar en el examen, un tema reinicia el examen (con otro orden) y devuelve esa pregunta
+ *       al repaso. El temario completo no se reinicia: la pregunta se repara —hay que acertarla
+ *       {@value #RETIRO_TEMARIO} veces seguidas— y el examen sigue justo donde estaba, contándola
+ *       como superada.</li>
  * </ul>
  */
 final class Motor {
-    static final int MAX_FALLADAS = 5;
+    static final int MAX_ACTIVAS = 5;
     static final int SEPARACION = 2;
-    static final int RETIRO = 2;
+    static final int RETIRO_TEMA = 2;
+    static final int RETIRO_TEMARIO = 3;
 
-    enum Tipo { NUEVA, REPASO, REINTENTO, FINAL }
+    enum Tipo { NUEVA, REPASO, REINTENTO, FINAL, REPARACION }
 
     /** {@code orden} es el instante previsto: la cola se mantiene ordenada por él, lo que evita que una pregunta se aplace sin fin. */
     record Turno(int idx, Tipo tipo, double orden) {}
 
     final int total;
+    /** Aciertos seguidos que retiran una pregunta del repaso. */
+    final int retiro;
+    private final boolean temarioCompleto;
     private int desbloqueadas;
     private int foco = -1;
     private boolean focoResuelto;
@@ -40,6 +50,8 @@ final class Motor {
     private long reloj;
     private boolean examen;
     private int examenIndice;
+    /** Pregunta fallada en el examen que hay que reparar antes de seguir (-1 si no hay ninguna). */
+    private int reparando = -1;
     private int[] ordenExamen;
     private final int[] seguidas;
     private final LinkedHashSet<Integer> falladas = new LinkedHashSet<>();
@@ -50,7 +62,13 @@ final class Motor {
     int aciertos, errores, racha, mejorRacha;
 
     Motor(int total) {
+        this(total, false);
+    }
+
+    Motor(int total, boolean temarioCompleto) {
         this.total = total;
+        this.temarioCompleto = temarioCompleto;
+        this.retiro = temarioCompleto ? RETIRO_TEMARIO : RETIRO_TEMA;
         this.seguidas = new int[Math.max(0, total)];
     }
 
@@ -58,15 +76,23 @@ final class Motor {
 
     int desbloqueadas() { return desbloqueadas; }
     int falladas() { return falladas.size(); }
-    boolean bloqueado() { return falladas.size() >= MAX_FALLADAS && desbloqueadas < total; }
     boolean terminado() { return terminado; }
     boolean esFallada(int idx) { return falladas.contains(idx); }
 
-    /** Aciertos seguidos de una pregunta (0..{@value #RETIRO}). */
+    /** Preguntas desbloqueadas que siguen en circulación: repaso y falladas, todas las no dominadas. */
+    int activas() {
+        int n = 0;
+        for (int i = 0; i < desbloqueadas; i++) if (!dominada(i)) n++;
+        return n;
+    }
+
+    boolean bloqueado() { return activas() >= MAX_ACTIVAS && desbloqueadas < total; }
+
+    /** Aciertos seguidos de una pregunta (0..{@code retiro}). */
     int seguidas(int idx) { return idx >= 0 && idx < total ? seguidas[idx] : 0; }
 
     /** Una pregunta dominada ya no aparece en los repasos. */
-    boolean dominada(int idx) { return seguidas(idx) >= RETIRO; }
+    boolean dominada(int idx) { return seguidas(idx) >= retiro; }
 
     int dominadas() {
         int n = 0;
@@ -75,6 +101,12 @@ final class Motor {
     }
 
     boolean enExamen() { return examen; }
+
+    /** El examen está en pausa reparando una pregunta fallada. */
+    boolean reparando() { return reparando >= 0; }
+
+    /** Aciertos seguidos que faltan para retomar el examen. */
+    int reparacionRestante() { return reparando < 0 ? 0 : Math.max(0, retiro - seguidas(reparando)); }
 
     /**
      * Empieza el examen final ahora, sin haber practicado: desbloquea todas las preguntas del
@@ -86,6 +118,7 @@ final class Motor {
         desbloqueadas = total;
         foco = total - 1;
         focoResuelto = true;
+        reparando = -1;
         pendientes.clear();
         cola.clear();
         empezarExamen();
@@ -97,6 +130,7 @@ final class Motor {
         if (!examen || dominadas() >= total) return;
         examen = false;
         examenIndice = 0;
+        reparando = -1;
         ordenExamen = null;
         cola.clear();
         planificar();
@@ -123,30 +157,40 @@ final class Motor {
         Turno t = cola.peekFirst();
         if (t == null) return "";
         int idx = t.idx();
+        if (t.tipo() == Tipo.REPARACION) {
+            if (!ok) return "Vuelves a empezar: hacen falta " + retiro + " aciertos seguidos para retomar el examen.";
+            int n = seguidas(idx) + 1;
+            return n >= retiro
+                    ? "¡Reparada! Retomas el examen final con " + (examenIndice + 1) + " de " + total + " seguidas."
+                    : "Reparación: " + n + " de " + retiro + " aciertos seguidos para retomar el examen.";
+        }
         if (t.tipo() == Tipo.FINAL) {
-            if (!ok) return "Se reinicia el examen final y esta pregunta vuelve al repaso.";
+            if (!ok) {
+                return temarioCompleto
+                        ? "El examen no se reinicia: repetirás esta pregunta hasta acertarla " + retiro
+                                + " veces seguidas y volverás justo aquí."
+                        : "Se reinicia el examen final y esta pregunta vuelve al repaso.";
+            }
             return examenIndice + 1 >= total
                     ? "¡Es la última! Con esto completas la sección."
                     : "Examen final: " + (examenIndice + 1) + " de " + total + " seguidas.";
         }
         boolean quedan = desbloqueadas < total;
-        boolean eraFallada = falladas.contains(idx);
-        int fallasDespues = falladas.size() + (ok ? (eraFallada ? -1 : 0) : (eraFallada ? 0 : 1));
         if (ok) {
             int nuevas = seguidas(idx) + 1;
-            if (nuevas >= RETIRO) {
-                String base = "¡Dominada! " + RETIRO + " aciertos seguidos: ya no volverá a aparecer en el repaso.";
-                if (!quedan && fallasDespues == 0 && dominadas() + 1 >= total) base += " Empieza el examen final.";
+            if (nuevas >= retiro) {
+                String base = "¡Dominada! " + retiro + " aciertos seguidos: ya no volverá a aparecer en el repaso.";
+                if (quedan) return base + " Queda un hueco libre: entrará una pregunta nueva.";
+                if (falladas.size() - (falladas.contains(idx) ? 1 : 0) == 0 && dominadas() + 1 >= total)
+                    return base + " Empieza el examen final.";
                 return base;
             }
-            String base = "Llevas " + nuevas + " de " + RETIRO + " aciertos seguidos en esta pregunta.";
-            if (idx == foco && quedan) {
-                base += fallasDespues >= MAX_FALLADAS
-                        ? " Tienes " + MAX_FALLADAS + " falladas activas: acierta una para desbloquear la siguiente."
-                        : " Se desbloquea la siguiente pregunta.";
-            } else if (eraFallada && falladas.size() >= MAX_FALLADAS && quedan) {
-                base += " ¡Liberaste un espacio para una pregunta nueva!";
-            }
+            String base = "Llevas " + nuevas + " de " + retiro + " aciertos seguidos en esta pregunta.";
+            if (!quedan) return base;
+            // Una pregunta solo deja hueco al quedar dominada, así que acertar sin retirarla no lo libera.
+            if (activas() >= MAX_ACTIVAS)
+                return base + " Hay " + MAX_ACTIVAS + " preguntas activas: domina una para que entre otra nueva.";
+            if (idx == foco) return base + " Se desbloquea la siguiente pregunta.";
             return base;
         }
         String base;
@@ -158,8 +202,8 @@ final class Motor {
             base = "Volverá a salir después de " + SEPARACION + " preguntas.";
         }
         if (seguidas(idx) > 0) base = "Pierdes los " + seguidas(idx) + " aciertos seguidos de esta pregunta. " + base;
-        if (!eraFallada && fallasDespues >= MAX_FALLADAS && quedan)
-            base += " Llegas a " + MAX_FALLADAS + " falladas: no habrá nuevas hasta que aciertes una.";
+        if (quedan && activas() >= MAX_ACTIVAS)
+            base += " Siguen las " + MAX_ACTIVAS + " preguntas activas: no entran nuevas hasta dominar una.";
         return base;
     }
 
@@ -186,6 +230,13 @@ final class Motor {
             falladas.add(idx);
         }
 
+        if (t.tipo() == Tipo.REPARACION) {
+            // planificar() decide si ya está saldada y se retoma el examen.
+            cola.clear();
+            planificar();
+            return;
+        }
+
         if (t.tipo() == Tipo.FINAL) {
             cola.clear();
             if (ok) {
@@ -194,6 +245,8 @@ final class Motor {
                     terminado = true;
                     return;
                 }
+            } else if (temarioCompleto) {
+                reparando = idx;
             } else {
                 examen = false;
                 examenIndice = 0;
@@ -246,7 +299,8 @@ final class Motor {
     private void planificar() {
         if (terminado) return;
         if (examen) {
-            programarExamen();
+            if (reparando >= 0) programarReparacion();
+            else programarExamen();
             return;
         }
         if (foco < 0) {
@@ -259,7 +313,7 @@ final class Motor {
             return;
         }
         boolean quedan = desbloqueadas < total;
-        boolean lleno = falladas.size() >= MAX_FALLADAS;
+        boolean lleno = activas() >= MAX_ACTIVAS;
 
         if (!focoResuelto) {
             List<Integer> otros = repaso(foco, -1);
@@ -283,19 +337,10 @@ final class Motor {
             return;
         }
 
-        if (lleno && quedan) {
-            // De una en una: al acertar una fallada se libera espacio y entra una pregunta nueva.
-            for (int i : falladas) {
-                if (!pendientes.containsKey(i)) {
-                    agregar(i, Tipo.REINTENTO);
-                    break;
-                }
-            }
-        } else {
-            for (int i : repaso(-1, ultimo)) agregarRepaso(i);
-            // Si lo único pendiente era la pregunta recién respondida, se repite.
-            if (cola.isEmpty()) for (int i : repaso(-1, -1)) agregarRepaso(i);
-        }
+        // Sin hueco libre (o ya sin preguntas nuevas): ronda de repaso con las activas.
+        for (int i : repaso(-1, ultimo)) agregarRepaso(i);
+        // Si lo único pendiente era la pregunta recién respondida, se repite.
+        if (cola.isEmpty()) for (int i : repaso(-1, -1)) agregarRepaso(i);
 
         if (cola.isEmpty() && !pendientes.isEmpty()) {
             int relleno = elegirRelleno();
@@ -323,9 +368,28 @@ final class Motor {
         agregar(ordenExamen[examenIndice], Tipo.FINAL);
     }
 
+    /**
+     * Reparación de una pregunta fallada en el examen del temario completo: se repite hasta
+     * acertarla {@code retiro} veces seguidas y entonces cuenta como superada, sin reiniciar nada.
+     */
+    private void programarReparacion() {
+        if (!dominada(reparando)) {
+            agregar(reparando, Tipo.REPARACION);
+            return;
+        }
+        reparando = -1;
+        examenIndice++;
+        if (examenIndice >= total) {
+            terminado = true;
+            return;
+        }
+        programarExamen();
+    }
+
     private void empezarExamen() {
         examen = true;
         examenIndice = 0;
+        reparando = -1;
         barajarExamen();
     }
 
@@ -402,8 +466,9 @@ final class Motor {
 
     Properties exportar() {
         Properties p = new Properties();
-        p.setProperty("version", "2");
+        p.setProperty("version", "3");
         p.setProperty("total", String.valueOf(total));
+        p.setProperty("retiro", String.valueOf(retiro));
         p.setProperty("desbloqueadas", String.valueOf(desbloqueadas));
         p.setProperty("foco", String.valueOf(foco));
         p.setProperty("focoResuelto", String.valueOf(focoResuelto));
@@ -412,6 +477,7 @@ final class Motor {
         p.setProperty("terminado", String.valueOf(terminado));
         p.setProperty("examen", String.valueOf(examen));
         p.setProperty("examenIndice", String.valueOf(examenIndice));
+        p.setProperty("reparando", String.valueOf(reparando));
         p.setProperty("ordenExamen", ordenExamen == null ? ""
                 : Arrays.stream(ordenExamen).mapToObj(String::valueOf).collect(Collectors.joining(",")));
         p.setProperty("aciertos", String.valueOf(aciertos));
@@ -426,10 +492,10 @@ final class Motor {
         return p;
     }
 
-    static Motor importar(Properties p, int total) {
-        Motor m = new Motor(total);
+    static Motor importar(Properties p, int total, boolean temarioCompleto) {
+        Motor m = new Motor(total, temarioCompleto);
         try {
-            if (Integer.parseInt(p.getProperty("total", "-1")) != total) return new Motor(total);
+            if (Integer.parseInt(p.getProperty("total", "-1")) != total) return new Motor(total, temarioCompleto);
             m.desbloqueadas = entero(p, "desbloqueadas", 0, total);
             m.foco = Integer.parseInt(p.getProperty("foco", "-1"));
             if (m.foco >= m.desbloqueadas) throw new IllegalStateException("foco inválido");
@@ -447,7 +513,7 @@ final class Motor {
             List<String> seguidas = partes(p, "seguidas");
             if (!seguidas.isEmpty()) {
                 if (seguidas.size() != total) throw new IllegalStateException("tamaño inválido");
-                for (int i = 0; i < total; i++) m.seguidas[i] = Math.max(0, Math.min(RETIRO, Integer.parseInt(seguidas.get(i).trim())));
+                for (int i = 0; i < total; i++) m.seguidas[i] = Math.max(0, Math.min(m.retiro, Integer.parseInt(seguidas.get(i).trim())));
             } else {
                 // Progreso guardado con la versión anterior: lo acertado cuenta como un acierto seguido.
                 for (String s : partes(p, "dominadas")) m.seguidas[indice(s, m.desbloqueadas)] = 1;
@@ -473,10 +539,12 @@ final class Motor {
                 }
                 m.ordenExamen = valores;
             }
-            if (m.examen) m.cola.removeIf(t -> t.tipo() != Tipo.FINAL);
+            int reparando = Integer.parseInt(p.getProperty("reparando", "-1"));
+            m.reparando = m.examen && m.temarioCompleto && reparando >= 0 && reparando < m.desbloqueadas ? reparando : -1;
+            if (m.examen) m.cola.removeIf(t -> t.tipo() != Tipo.FINAL && t.tipo() != Tipo.REPARACION);
             return m;
         } catch (RuntimeException e) {
-            return new Motor(total);
+            return new Motor(total, temarioCompleto);
         }
     }
 

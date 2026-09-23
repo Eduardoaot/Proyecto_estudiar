@@ -48,9 +48,10 @@ final class PantallaEstudio extends JPanel implements Pantalla {
         this.tema = tema;
         this.preguntas = materia.preguntasDe(tema);
         this.clave = Progreso.clave(materia, tema);
-        this.motor = Progreso.cargar(clave, preguntas.size());
+        this.motor = Progreso.cargar(clave, preguntas.size(), tema == null);
         this.motor.setLimiteRepaso(Progreso.limiteRepaso());
-        if (examenDirecto) this.motor.iniciarExamen();
+        // Un examen guardado a medias se retoma tal cual: iniciarExamen() lo pondría a cero.
+        if (examenDirecto && !this.motor.enExamen()) this.motor.iniciarExamen();
         this.tarjeta = new TarjetaPregunta();
         this.lateral = new PanelLateral();
         setOpaque(false);
@@ -139,9 +140,13 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             motor.salirExamen();
         } else {
             boolean listo = motor.dominadas() >= motor.total;
+            String alFallar = tema == null
+                    ? "si fallas una, la repites hasta acertarla " + motor.retiro
+                            + " veces seguidas y el examen continúa donde estaba."
+                    : "si fallas una, vuelves a la práctica.";
             if (!listo && !UI.confirmar(this, "¿Empezar el examen final?",
-                    "Tendrás que responder las " + preguntas.size() + " preguntas seguidas y sin fallar. "
-                            + "Se desbloquean todas y, si fallas una, vuelves a la práctica.", "Empezar examen")) {
+                    "Tendrás que responder las " + preguntas.size() + " preguntas seguidas. "
+                            + "Se desbloquean todas y, " + alFallar, "Empezar examen")) {
                 return;
             }
             motor.iniciarExamen();
@@ -593,6 +598,10 @@ final class PantallaEstudio extends JPanel implements Pantalla {
                     etiqueta = "EXAMEN FINAL";
                     color = Estilo.EXITO;
                 }
+                case REPARACION -> {
+                    etiqueta = "REPETIR " + motor.reparacionRestante() + "×";
+                    color = Estilo.AVISO;
+                }
                 default -> {
                     etiqueta = "REINTENTO";
                     color = Estilo.AVISO;
@@ -628,9 +637,11 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             // Los puntos de racha solo caben en tarjetas anchas.
             if (turno.tipo() != Motor.Tipo.FINAL && w > 620) izquierda = pintarSeguidas(g2, izquierda, by + bh / 2);
 
-            String derecha = turno.tipo() == Motor.Tipo.FINAL
-                    ? (motor.examenIndice() + 1) + " de " + preguntas.size() + " del examen"
-                    : (tema == null ? pregunta.tema() : (turno.idx() + 1) + " de " + preguntas.size());
+            String derecha = switch (turno.tipo()) {
+                case FINAL -> (motor.examenIndice() + 1) + " de " + preguntas.size() + " del examen";
+                case REPARACION -> "examen en pausa  ·  " + motor.examenIndice() + " de " + preguntas.size();
+                default -> tema == null ? pregunta.tema() : (turno.idx() + 1) + " de " + preguntas.size();
+            };
             g2.setFont(Estilo.fuente(Estilo.NORMAL, 13f));
             fm = g2.getFontMetrics();
             double libre = w - pad(w) - izquierda;
@@ -641,20 +652,20 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             }
         }
 
-        /** Aciertos seguidos de esta pregunta: al llegar a 4 sale del repaso. */
+        /** Aciertos seguidos de esta pregunta: al completarlos sale del repaso. */
         private double pintarSeguidas(Graphics2D g2, double x, double cy) {
             int n = motor.seguidas(turno.idx());
             double d = 9, sep = 6;
-            for (int i = 0; i < Motor.RETIRO; i++) {
+            for (int i = 0; i < motor.retiro; i++) {
                 Ellipse2D punto = new Ellipse2D.Double(x + i * (d + sep), cy - d / 2, d, d);
                 g2.setColor(i < n ? Estilo.EXITO : new Color(255, 255, 255, 30));
                 g2.fill(punto);
             }
-            double fin = x + Motor.RETIRO * (d + sep) - sep + 8;
+            double fin = x + motor.retiro * (d + sep) - sep + 8;
             g2.setFont(Estilo.fuente(Estilo.NORMAL, 12.5f));
             FontMetrics fm = g2.getFontMetrics();
             g2.setColor(Estilo.TEXTO_TENUE);
-            String txt = n + "/" + Motor.RETIRO + " seguidas";
+            String txt = n + "/" + motor.retiro + " seguidas";
             g2.drawString(txt, (float) fin, (float) (cy - fm.getHeight() / 2f + fm.getAscent()));
             return fin + fm.stringWidth(txt) + 20;
         }
@@ -814,7 +825,7 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             g2.drawString("RESPUESTA CORRECTA", 28, yCaja + 32);
 
             // Información de lo que sigue
-            Color ci = textoInfo.getTexto().contains(String.valueOf(Motor.MAX_FALLADAS) + " falladas") ? Estilo.AVISO : Estilo.TEXTO_SUAVE;
+            Color ci = textoInfo.getTexto().contains("preguntas activas") ? Estilo.AVISO : Estilo.TEXTO_SUAVE;
             Ellipse2D icono = new Ellipse2D.Double(0, yInfo + 1, 19, 19);
             g2.setColor(Estilo.alfa(ci, 40));
             g2.fill(icono);
@@ -845,10 +856,10 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             double f = motor.total == 0 ? 0 : motor.dominadas() / (double) motor.total;
             if (animar) {
                 anillo.ir(f, 900);
-                fallos.ir(motor.falladas(), 450);
+                fallos.ir(motor.activas(), 450);
             } else {
                 anillo.fijar(f);
-                fallos.fijar(motor.falladas());
+                fallos.fijar(motor.activas());
             }
             repaint();
         }
@@ -877,8 +888,9 @@ final class PantallaEstudio extends JPanel implements Pantalla {
                     .append(':').append(motor.dominadas()).append(':').append(motor.desbloqueadas())
                     .append(':').append(motor.aciertos).append(':').append(motor.errores)
                     .append(':').append(motor.racha).append(':').append(motor.mejorRacha)
-                    .append(':').append(motor.falladas()).append(':').append(motor.bloqueado())
+                    .append(':').append(motor.activas()).append(':').append(motor.bloqueado())
                     .append(':').append(motor.enExamen()).append(':').append(motor.examenIndice())
+                    .append(':').append(motor.reparacionRestante())
                     .append(':').append(anillo.get()).append(':').append(fallos.get());
             for (Motor.Turno t : motor.proximas(8)) sb.append(':').append(t.idx()).append(t.tipo().ordinal());
             return sb.toString();
@@ -919,7 +931,7 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             g2.drawString("dominadas", (float) tx, (float) (cy + 12));
             g2.setColor(Estilo.TEXTO_TENUE);
             g2.drawString(motor.desbloqueadas() + " desbloqueadas", (float) tx, (float) (cy + 32));
-            g2.drawString(Motor.RETIRO + " aciertos seguidos", (float) tx, (float) (cy + 50));
+            g2.drawString(motor.retiro + " aciertos seguidos", (float) tx, (float) (cy + 50));
             y += (int) (2 * r) + 30;
 
             // Mosaicos de estadísticas
@@ -932,17 +944,17 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             y += th + 28;
 
             // Falladas activas
-            etiqueta(g2, "FALLADAS ACTIVAS", pad, y);
+            etiqueta(g2, "PREGUNTAS ACTIVAS", pad, y);
             g2.setFont(Estilo.fuente(Estilo.SEMI, 13f));
-            String cuenta = motor.falladas() + " / " + Motor.MAX_FALLADAS;
+            String cuenta = motor.activas() + " / " + Motor.MAX_ACTIVAS;
             FontMetrics fm = g2.getFontMetrics();
-            g2.setColor(motor.falladas() >= Motor.MAX_FALLADAS ? Estilo.ERROR : Estilo.TEXTO_SUAVE);
+            g2.setColor(motor.activas() >= Motor.MAX_ACTIVAS ? Estilo.ERROR : Estilo.TEXTO_SUAVE);
             g2.drawString(cuenta, pad + ancho - fm.stringWidth(cuenta), y + 11);
             y += 24;
             double f = fallos.get();
-            double paso = ancho / (double) Motor.MAX_FALLADAS;
+            double paso = ancho / (double) Motor.MAX_ACTIVAS;
             double d = Math.min(30, paso - 12);
-            for (int i = 0; i < Motor.MAX_FALLADAS; i++) {
+            for (int i = 0; i < Motor.MAX_ACTIVAS; i++) {
                 double px = pad + i * paso + (paso - d) / 2;
                 Ellipse2D base = new Ellipse2D.Double(px, y, d, d);
                 g2.setColor(new Color(255, 255, 255, 12));
@@ -962,10 +974,10 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             g2.setFont(Estilo.fuente(Estilo.NORMAL, 12.5f));
             if (motor.bloqueado()) {
                 g2.setColor(Estilo.AVISO);
-                y = (int) Estilo.parrafo(g2, "Nuevas bloqueadas: acierta una fallada para continuar.", pad, y, ancho, 2, 1.25);
+                y = (int) Estilo.parrafo(g2, "Nuevas bloqueadas: domina una activa para hacer sitio.", pad, y, ancho, 2, 1.25);
             } else {
                 g2.setColor(Estilo.TEXTO_TENUE);
-                y = (int) Estilo.parrafo(g2, "Con " + Motor.MAX_FALLADAS + " falladas se bloquean las preguntas nuevas.", pad, y, ancho, 2, 1.25);
+                y = (int) Estilo.parrafo(g2, "Con " + Motor.MAX_ACTIVAS + " activas (repaso incluido) se bloquean las nuevas.", pad, y, ancho, 2, 1.25);
             }
             y += 22;
 
@@ -990,7 +1002,11 @@ final class PantallaEstudio extends JPanel implements Pantalla {
                 y += 76;
                 g2.setFont(Estilo.fuente(Estilo.NORMAL, 12.5f));
                 g2.setColor(Estilo.AVISO);
-                y = (int) Estilo.parrafo(g2, "Un fallo reinicia el examen y devuelve esa pregunta al repaso.", pad, y, ancho, 3, 1.25);
+                String aviso = tema == null
+                        ? "Un fallo no reinicia el examen: repites esa pregunta " + motor.retiro
+                                + " veces seguidas y continúas aquí."
+                        : "Un fallo reinicia el examen y devuelve esa pregunta al repaso.";
+                y = (int) Estilo.parrafo(g2, aviso, pad, y, ancho, 3, 1.25);
                 y += 18;
             }
 
@@ -1043,6 +1059,7 @@ final class PantallaEstudio extends JPanel implements Pantalla {
                 case REPASO -> Estilo.INFO;
                 default -> Estilo.AVISO;
             };
+
             RoundRectangle2D r = new RoundRectangle2D.Double(x, y, w, 38, 12, 12);
             g2.setColor(new Color(255, 255, 255, 7));
             g2.fill(r);
@@ -1056,6 +1073,7 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             String tipo = switch (t.tipo()) {
                 case NUEVA -> "Nueva";
                 case REPASO -> "Repaso";
+                case REPARACION -> "Repetir";
                 default -> "Reintento";
             };
             g2.setFont(Estilo.fuente(Estilo.NORMAL, 11.5f));

@@ -33,7 +33,8 @@ final class PantallaInicio extends JPanel implements Pantalla {
         }
         pasos.add(new Paso(1, "Aprende en orden", "Cada acierto te muestra la respuesta y desbloquea la siguiente pregunta."));
         pasos.add(new Paso(2, "Repaso acumulativo", "Antes de cada pregunta nueva repasas las que aún no dominas."));
-        pasos.add(new Paso(3, Motor.RETIRO + " aciertos seguidos", "Con " + Motor.RETIRO + " aciertos seguidos la pregunta queda dominada y sale del repaso."));
+        pasos.add(new Paso(3, "Aciertos seguidos", "Con " + Motor.RETIRO_TEMA + " aciertos seguidos ("
+                + Motor.RETIRO_TEMARIO + " en el temario completo) la pregunta queda dominada y sale del repaso."));
         pasos.add(new Paso(4, "Examen final", "Para completar un módulo: sus preguntas seguidas y correctas. Puedes hacerlo cuando quieras."));
         pasos.forEach(this::add);
     }
