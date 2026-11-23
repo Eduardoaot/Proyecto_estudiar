@@ -12,7 +12,7 @@ import java.util.List;
 final class PantallaInicio extends JPanel implements Pantalla {
     private final Ventana app;
     private final UI.Texto titulo, subtitulo;
-    private final List<TarjetaMateria> tarjetas = new ArrayList<>();
+    private final List<JComponent> tarjetas = new ArrayList<>();
     private final List<Paso> pasos = new ArrayList<>();
     private final ValorAnimado entrada = new ValorAnimado(0, this::repaint);
     private final Rectangle logo = new Rectangle();
@@ -31,6 +31,9 @@ final class PantallaInicio extends JPanel implements Pantalla {
             tarjetas.add(t);
             add(t);
         }
+        TarjetaProblemas problemas = new TarjetaProblemas(() -> app.mostrar(new PantallaProblemas(app), 1));
+        tarjetas.add(problemas);
+        add(problemas);
         pasos.add(new Paso(1, "Aprende en orden", "Cada acierto te muestra la respuesta y desbloquea la siguiente pregunta."));
         pasos.add(new Paso(2, "Repaso acumulativo", "Antes de cada pregunta nueva repasas las que aún no dominas."));
         pasos.add(new Paso(3, "Aciertos seguidos", "Con " + Motor.RETIRO_TEMA + " aciertos seguidos ("
@@ -46,8 +49,8 @@ final class PantallaInicio extends JPanel implements Pantalla {
         entrada.fijar(0);
         entrada.ir(1, 600);
         for (int i = 0; i < tarjetas.size(); i++) {
-            tarjetas.get(i).refrescar();
-            tarjetas.get(i).aparecer(120 + i * 110);
+            ((TarjetaInicio) tarjetas.get(i)).refrescar();
+            ((TarjetaInicio) tarjetas.get(i)).aparecer(120 + i * 110);
         }
         for (int i = 0; i < pasos.size(); i++) pasos.get(i).aparecer(360 + i * 90);
     }

@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 
 /** Tarjeta grande de una materia. */
-final class TarjetaMateria extends JComponent {
+final class TarjetaMateria extends JComponent implements TarjetaInicio {
     private static final int M = 14;
     private final Materia materia;
     private final int numTemas;
@@ -31,11 +31,13 @@ final class TarjetaMateria extends JComponent {
         refrescar();
     }
 
-    void refrescar() {
+    @Override
+    public void refrescar() {
         resumen = Progreso.resumenMateria(materia);
     }
 
-    void aparecer(int retraso) {
+    @Override
+    public void aparecer(int retraso) {
         aparicion.fijar(0);
         barra.fijar(0);
         Anim.despues(Math.max(1, retraso), () -> {

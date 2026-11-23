@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
  *
  * <ul>
  *   <li>Las preguntas se desbloquean en orden. La más reciente es el "foco".</li>
- *   <li>Antes de cada pregunta nueva se repasan las que aún no están dominadas (repaso acumulativo).</li>
+ *   <li>Antes de cada pregunta nueva se repasan las que aún no están dominadas (repaso acumulativo).
+ *       La nueva anterior cierra esa ronda, justo antes de la siguiente nueva.</li>
  *   <li>Si el foco se falla, se repasan las demás y vuelve a salir al final de la ronda.</li>
  *   <li>Cualquier otra pregunta fallada vuelve a salir después de {@value #SEPARACION} preguntas.</li>
  *   <li>Con {@value #MAX_ACTIVAS} preguntas activas no se desbloquean nuevas. Activa es toda pregunta
@@ -331,8 +332,15 @@ final class Motor {
         }
 
         if (quedan && !lleno) {
+            int previo = foco;
             desbloquear();
-            for (int i : repaso(foco, ultimo)) agregarRepaso(i);
+            List<Integer> ronda = repaso(foco, ultimo);
+            ronda.remove(Integer.valueOf(previo));
+            for (int i : ronda) agregarRepaso(i);
+            // La nueva anterior se repite justo antes de la siguiente nueva, siempre que no
+            // quede pegada a sí misma (entonces sale en la próxima ronda).
+            if (!dominada(previo) && !pendientes.containsKey(previo) && (previo != ultimo || !ronda.isEmpty()))
+                agregarRepaso(previo);
             agregar(foco, Tipo.NUEVA);
             return;
         }

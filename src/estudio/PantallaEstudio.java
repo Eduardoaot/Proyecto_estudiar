@@ -21,7 +21,7 @@ final class PantallaEstudio extends JPanel implements Pantalla {
     private final String clave;
     private final Motor motor;
 
-    private final UI.Boton volver, examenBoton;
+    private final UI.Boton volver, examenBoton, memorizar;
     private final UI.Texto titulo, subtitulo, textoProgreso;
     private final UI.Barra barra = new UI.Barra();
     private final TarjetaPregunta tarjeta;
@@ -60,6 +60,9 @@ final class PantallaEstudio extends JPanel implements Pantalla {
         volver.addActionListener(e -> salir());
         examenBoton = new UI.Boton("Examen final", UI.TipoBoton.SECUNDARIO);
         examenBoton.addActionListener(e -> alternarExamen());
+        memorizar = new UI.Boton("Memorizar", UI.TipoBoton.SECUNDARIO);
+        memorizar.setToolTipText("Escribe y compara la respuesta de esta pregunta las veces que quieras, sin afectar tu avance");
+        memorizar.addActionListener(e -> abrirMemorizar());
         titulo = new UI.Texto(tema == null ? "Todo el temario" : tema, Estilo.NEGRITA, 19f, Estilo.TEXTO);
         titulo.setMaxLineas(1);
         subtitulo = new UI.Texto(materia.nombre, Estilo.NORMAL, 13f, Estilo.TEXTO_SUAVE);
@@ -74,6 +77,7 @@ final class PantallaEstudio extends JPanel implements Pantalla {
 
         add(volver);
         add(examenBoton);
+        add(memorizar);
         add(titulo);
         add(subtitulo);
         add(textoProgreso);
@@ -163,6 +167,12 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             tarjeta.dy = 0;
             centro.repaint();
         });
+    }
+
+    /** Abre el modo memorizar con la pregunta actual; al volver todo sigue exactamente igual. */
+    private void abrirMemorizar() {
+        if (ocupado || turno == null || pregunta == null || motor.enExamen()) return;
+        app.mostrar(new PantallaMemorizar(app, materia, pregunta, this), 1);
     }
 
     private void salir() {
@@ -270,6 +280,8 @@ final class PantallaEstudio extends JPanel implements Pantalla {
         boolean todoDominado = motor.dominadas() >= motor.total;
         examenBoton.setText(motor.enExamen() ? "Volver a practicar" : "Examen final");
         examenBoton.setVisible(!motor.terminado() && !(motor.enExamen() && todoDominado));
+        // Memorizar solo en la práctica: en el examen final mostraría la respuesta.
+        memorizar.setVisible(turno != null && !motor.enExamen());
         revalidate();
     }
 
@@ -292,6 +304,11 @@ final class PantallaEstudio extends JPanel implements Pantalla {
             Dimension de = UI.prefDiseno(examenBoton);
             UI.poner(examenBoton, derecha - de.width, 20, de.width, 40);
             derecha -= de.width + 16;
+        }
+        if (memorizar.isVisible()) {
+            Dimension dm = UI.prefDiseno(memorizar);
+            UI.poner(memorizar, derecha - dm.width, 20, dm.width, 40);
+            derecha -= dm.width + 16;
         }
         // En ventanas estrechas el texto de progreso estorba: lo dice la barra.
         boolean conProgreso = derecha - tx > 420;

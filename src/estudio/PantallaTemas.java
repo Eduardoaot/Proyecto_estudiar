@@ -15,7 +15,7 @@ final class PantallaTemas extends JPanel implements Pantalla {
 
     private final Ventana app;
     private final Materia materia;
-    private final UI.Boton volver;
+    private final UI.Boton volver, respuestas;
     private final UI.Texto titulo, subtitulo, etiquetaRepaso;
     private final UI.Segmentado repaso;
     private final TarjetaTema todo;
@@ -34,6 +34,8 @@ final class PantallaTemas extends JPanel implements Pantalla {
 
         volver = new UI.Boton("←   Materias", UI.TipoBoton.FANTASMA);
         volver.addActionListener(e -> app.mostrar(new PantallaInicio(app), -1));
+        respuestas = new UI.Boton("Ver preguntas y respuestas", UI.TipoBoton.SECUNDARIO);
+        respuestas.addActionListener(e -> verRespuestas(null));
         titulo = new UI.Texto(materia.nombre, Estilo.NEGRITA, 32f, Estilo.TEXTO);
         String sub = materia.preguntas.size() + " preguntas  ·  " + temas.size() + " temas";
         if (!materia.descripcion.isEmpty()) sub += "  ·  " + materia.descripcion;
@@ -62,6 +64,7 @@ final class PantallaTemas extends JPanel implements Pantalla {
         UI.estilizarScroll(scroll);
 
         add(volver);
+        add(respuestas);
         add(titulo);
         add(subtitulo);
         add(etiquetaRepaso);
@@ -140,6 +143,8 @@ final class PantallaTemas extends JPanel implements Pantalla {
         int x0 = (w - ancho) / 2;
         Dimension dv = UI.prefDiseno(volver);
         UI.poner(volver, x0 - 10, 22, dv.width, 40);
+        Dimension dr = UI.prefDiseno(respuestas);
+        UI.poner(respuestas, x0 + ancho - dr.width, 20, dr.width, 44);
 
         float tamTitulo = w < 620 ? 22f : (w < 900 ? 26f : 32f);
         if (titulo.getTam() != tamTitulo) titulo.setFuente(Estilo.NEGRITA, tamTitulo);

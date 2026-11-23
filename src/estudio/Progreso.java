@@ -41,6 +41,10 @@ final class Progreso {
 
     private static Path carpeta = Paths.get(System.getProperty("user.dir"), "progreso");
 
+    static Path carpeta() {
+        return carpeta;
+    }
+
     static void iniciar(Path carpetaDatos) {
         Path padre = carpetaDatos.toAbsolutePath().getParent();
         if (padre != null) carpeta = padre.resolve("progreso");
@@ -59,7 +63,7 @@ final class Progreso {
         return carpeta.resolve(clave + ".properties");
     }
 
-    private static Properties leer(Path ruta) {
+    static Properties leer(Path ruta) {
         Properties p = new Properties();
         if (Files.isRegularFile(ruta)) {
             try (Reader r = Files.newBufferedReader(ruta, StandardCharsets.UTF_8)) {
@@ -71,7 +75,7 @@ final class Progreso {
         return p;
     }
 
-    private static void escribir(Path ruta, Properties p) {
+    static void escribir(Path ruta, Properties p) {
         try {
             Files.createDirectories(ruta.getParent());
             Path tmp = ruta.resolveSibling(ruta.getFileName() + ".tmp");

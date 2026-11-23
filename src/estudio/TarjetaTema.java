@@ -165,15 +165,11 @@ final class TarjetaTema extends JComponent {
             gp.drawString(pct, (float) (x + w - pad - fmp.stringWidth(pct)), (float) (pieY - 12));
             gp.dispose();
         }
-        // Píldoras: examen final y, si ya se completó, las respuestas
+        // Píldoras: examen final y la lista de preguntas con sus respuestas
         if (hv2 > 0.01) {
             String textoExamen = resumen.examenEnCurso() ? "Continuar examen" : "Examen";
             double derecha = pildora(g2, textoExamen, x + w - pad, pieY, hv2, hoverExamen.get(), Estilo.EXITO, zonaExamen);
-            if (resumen.completado()) {
-                pildora(g2, "Respuestas", derecha - 8, pieY, hv2, hoverRespuestas.get(), materia.acento1, zonaRespuestas);
-            } else {
-                zonaRespuestas.setBounds(0, 0, 0, 0);
-            }
+            pildora(g2, "Respuestas", derecha - 8, pieY, hv2, hoverRespuestas.get(), materia.acento1, zonaRespuestas);
         } else {
             zonaExamen.setBounds(0, 0, 0, 0);
             zonaRespuestas.setBounds(0, 0, 0, 0);
