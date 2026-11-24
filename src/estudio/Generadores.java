@@ -12,13 +12,25 @@ import java.util.regex.Pattern;
  * <p>Port exacto de {@code referencia/generadores.js}: mismo generador pseudoaleatorio, mismo orden de
  * llamadas, mismas fórmulas y mismo redondeo. Con la misma semilla produce el mismo problema, número a
  * número y texto a texto (lo comprueba {@code probar.bat}). La semilla 0 de T20 es el ejemplo de clase.</p>
+ *
+ * <p>Excepción a propósito: en T16, T19 y T20 los pasos se escriben como en las diapositivas (fracciones
+ * apiladas y tablas) y T20 trae además el enunciado por secciones. Ahí cambia solo la presentación; los
+ * números y las respuestas siguen siendo idénticos a los de JS.</p>
  */
 final class Generadores {
     private Generadores() {}
 
     // ================================================================== modelo
 
-    record Paso(String titulo, String formula, String sustitucion, String resultado) {}
+    /** Un paso de la solución. {@code tabla} (opcional) se muestra con la sustitución, como en las diapositivas. */
+    record Paso(String titulo, String formula, String sustitucion, String resultado, Tabla tabla) {
+        Paso(String titulo, String formula, String sustitucion, String resultado) {
+            this(titulo, formula, sustitucion, resultado, null);
+        }
+    }
+
+    /** Parte del enunciado presentado como en las guías: un título opcional, un texto y/o una tabla. */
+    record Seccion(String titulo, String texto, Tabla tabla) {}
 
     record Opcion(String valor, String texto) {}
 
@@ -39,7 +51,8 @@ final class Generadores {
     record Tabla(List<String> columnas, List<List<String>> filas) {}
 
     record Problema(String tipo, String tema, String titulo, int dificultad, long semilla, String enunciado,
-                    Tabla tabla, List<Paso> pasos, List<Respuesta> respuestas) {}
+                    Tabla tabla, List<Paso> pasos, List<Respuesta> respuestas, List<Seccion> secciones) {}
+    // secciones: enunciado como en las guías (tablas de datos y detalles); null si basta el texto y la tabla.
 
     /** Ficha del catálogo de tipos (campos de problemas_ordinario.json). */
     record Tipo(String id, String tema, String titulo, int dificultad, String datos, String queCambia,
@@ -69,7 +82,11 @@ final class Generadores {
         }
     }
 
-    private record Parcial(String enunciado, Tabla tabla, List<Paso> pasos, List<Respuesta> respuestas) {}
+    private record Parcial(String enunciado, Tabla tabla, List<Paso> pasos, List<Respuesta> respuestas, List<Seccion> secciones) {
+        Parcial(String enunciado, Tabla tabla, List<Paso> pasos, List<Respuesta> respuestas) {
+            this(enunciado, tabla, pasos, respuestas, null);
+        }
+    }
 
     // ================================================================== utilidades numéricas (como en JS)
 
@@ -215,6 +232,10 @@ final class Generadores {
 
     private static Paso paso(String titulo, String formula, String sustitucion, String resultado) {
         return new Paso(titulo, formula, sustitucion, resultado);
+    }
+
+    private static Paso paso(String titulo, String formula, String sustitucion, String resultado, Tabla tabla) {
+        return new Paso(titulo, formula, sustitucion, resultado, tabla);
     }
 
     private static Tabla tabla(List<String> columnas, List<List<String>> filas) {
@@ -857,19 +878,10 @@ final class Generadores {
                 + (j.turnos() == 1 ? "turno" : "turnos") + " al día de " + j.h() + " h cada uno.";
     }
 
-    private static List<Paso> pasosJornada(Jornada j) {
-        return List.of(
-                paso("Minutos del turno", "h/turno × 60", j.h() + " × 60", (j.h() * 60) + " min/turno"),
-                paso("Limpieza por turno", "h/vez × veces/semana × (1 semana / días) × (1 día / turnos) × 60",
-                        js(j.limpH()) + " × " + j.limpV() + " / " + j.dias() + " / " + j.turnos() + " × 60", fmt(j.limpMin()) + " min/turno"),
-                paso("Tiempo real del turno", "min/turno − suplementos de jornada",
-                        (j.h() * 60) + " − (" + fmt(j.limpMin()) + " + " + j.ropa() + " + " + j.comida() + ")", fmt(j.real()) + " min/turno"));
-    }
-
     private static Parcial t16(R R) {
         Jornada j = jornada(R);
         double TT = R.u(15, 120, 3), prod = r3(j.real() / TT);
-        List<Paso> pasos = new ArrayList<>(pasosJornada(j));
+        List<Paso> pasos = new ArrayList<>(pasosJornadaGuia(j));
         pasos.add(paso("Producción esperada", "unidades/turno = tiempo real / TT", fmt(j.real()) + " / " + fmt(TT), fmt(prod) + " unidades/turno"));
         return new Parcial("El tiempo tipo de una unidad es TT = " + fmt(TT) + " min/unidad. " + textoJornada(j)
                 + " Calcula el tiempo de limpieza por turno, el tiempo real del turno y la producción esperada por turno.", null, pasos,
@@ -919,7 +931,7 @@ final class Generadores {
         double TTact = R.u(10, 140, 3);
         double TTmax = r3(j.real() / meta);
         String cumple = TTact <= TTmax ? "si" : "no";
-        List<Paso> pasos = new ArrayList<>(pasosJornada(j));
+        List<Paso> pasos = new ArrayList<>(pasosJornadaGuia(j));
         pasos.add(paso("Tiempo tipo máximo", "TT máx = tiempo real / meta", fmt(j.real()) + " / " + meta, fmt(TTmax) + " min/unidad"));
         pasos.add(paso("Comparación", "TT actual ≤ TT máx", fmt(TTact) + " contra " + fmt(TTmax),
                 cumple.equals("si") ? "Sí se cumple la meta" : "No se cumple la meta"));
@@ -1020,30 +1032,7 @@ final class Generadores {
                 + (d.puede() ? "puede" : "no puede") + " dejar la máquina sola. " + textoJornada(j)
                 + " Calcula los tiempos, los suplementos, el tiempo tipo, la producción esperada, la carga de trabajo y "
                 + "verifica si se le puede asignar más de una máquina.";
-        List<Paso> pasos = new ArrayList<>();
-        pasos.add(paso("Veces por unidad de A", "VEZ/u = (piezas × g / 1000) / kg por vez",
-                "(" + fi(d.lote()) + " × " + js(d.g()) + " / 1000) / " + d.kg(), fmt(s.vuA) + " vez/unidad"));
-        pasos.add(paso("Veces por unidad de B y C", "VEZ/u = piezas / unidades", d.nHerr() + " / " + d.cadaN(),
-                fmt(s.vuH) + " vez/unidad" + (d.vuH() != null && d.vuH() != 0 ? " (la diapositiva de clase usa 3.830, el cociente exacto es 3.833)" : "")));
-        for (ElCalc e : s.els) pasos.add(paso("MN/unidad de " + e.e().clave(), "MN/vez × VEZ/unidad", fmt(e.e().mnvez()) + " × " + fmt(e.vu()), fmt(e.mnu())));
-        pasos.add(paso("Total y misceláneos", "Σ MN/unidad, misc = % × Σ", fmt(s.total) + " × " + d.pm() + "%",
-                "Total " + fmt(s.total) + ", misc " + fmt(s.misc)));
-        pasos.add(paso("Tiempo de máquina", "TM = piezas por lote / velocidad", fi(d.lote()) + " / " + fi(d.vel()), fmt(s.TM) + " min/unidad"));
-        pasos.add(paso("ETE", "Σ exteriores × (1 + %misc)", fmt(s.sE) + " + " + d.pm() + "%(" + fmt(s.sE) + ")", fmt(s.ETE)));
-        pasos.add(paso("ETI", "Σ interiores × (1 + %misc)", fmt(s.sI) + " + " + d.pm() + "%(" + fmt(s.sI) + ")", fmt(s.ETI)));
-        pasos.add(paso("TNO", "TM − ETI", fmt(s.TM) + " − " + fmt(s.ETI), fmt(s.TNO)));
-        pasos.add(paso("SNP", "% × (ETE + TM)", d.psnp() + "% × (" + fmt(s.ETE) + " + " + fmt(s.TM) + ")", fmt(s.SNP)));
-        pasos.add(paso("SF", "Σ MN/unidad × % de fatiga", unir(s.sfF, " + ", f -> fmt(f.sf())), fmt(s.SF)));
-        pasos.add(paso("Asignación", "SNP con tres condiciones, SF contra TNO", razonesSNP(s.TNO, d.inint(), d.puede()),
-                "SNP " + (s.a.snpDentro() ? "dentro" : "fuera") + ", SF dentro " + fmt(s.a.sfDentro()) + " y fuera " + fmt(s.a.sfFuera())));
-        pasos.add(paso("Tiempo tipo", "TT = ETE + TM + suplementos fuera del TNO", fmt(s.ETE) + " + " + fmt(s.TM) + " + " + fmt(s.a.fuera()),
-                fmt(s.TT) + " min/unidad"));
-        pasos.addAll(pasosJornada(j));
-        pasos.add(paso("Producción esperada", "tiempo real / TT", fmt(j.real()) + " / " + fmt(s.TT), fmt(s.prod) + " unidades/turno"));
-        pasos.add(paso("Carga de trabajo", "(ETE + ETI) / (ETE + TM)", "(" + fmt(s.ETE) + " + " + fmt(s.ETI) + ") / (" + fmt(s.ETE) + " + " + fmt(s.TM) + ")",
-                js(s.carga) + " = " + js(rd(s.carga * 100, 2)) + " %"));
-        pasos.add(paso("Número de máquinas", "1 / carga", "1 / " + js(s.carga),
-                js(s.nMaq) + ", puede atender " + s.ent + " " + (s.ent == 1 ? "máquina" : "máquinas")));
+        List<Paso> pasos = pasosIntegral(d, s);
         List<Respuesta> resp = List.of(
                 num("vuA", "Veces por unidad de A", s.vuA, "vez/unidad"), num("vuH", "Veces por unidad de B y C", s.vuH, "vez/unidad"),
                 num("total", "Total MN/unidad sin misceláneos", s.total, "min/unidad"), num("misc", "Misceláneos", s.misc, "min/unidad"),
@@ -1055,7 +1044,164 @@ final class Generadores {
                 num("ent", "Máquinas que puede atender", s.ent, "máquinas", 0));
         List<List<String>> tf = new ArrayList<>();
         for (ElInt e : d.elems()) tf.add(List.of(e.clave() + ". " + e.nombre(), fmt(e.mnvez()), e.exterior() ? "Detenida" : "En marcha", String.valueOf(e.pf())));
-        return new Parcial(enunciado, tabla(List.of("Elemento", "MN/vez", "Máquina", "% fatiga"), tf), pasos, resp);
+        return new Parcial(enunciado, tabla(List.of("Elemento", "MN/vez", "Máquina", "% fatiga"), tf), pasos, resp, seccionesIntegral(d));
+    }
+
+    /** Enunciado del caso integral con la forma de las diapositivas: tabla de datos, detalles, máquina, suplementos y jornada. */
+    private static List<Seccion> seccionesIntegral(Datos d) {
+        Ctx c = d.c();
+        Jornada j = d.j();
+        List<Seccion> r = new ArrayList<>();
+        r.add(new Seccion(null, "En " + c.lugar() + " se tienen los siguientes datos para la fabricación de " + c.producto() + ":", null));
+        List<List<String>> datos = new ArrayList<>();
+        for (ElInt e : d.elems()) datos.add(List.of(e.clave() + ". " + e.nombre(), fmt(e.mnvez())));
+        datos.add(List.of("F. Misceláneos", d.pm() + " %"));
+        r.add(new Seccion("Datos", null, tabla(List.of("Elemento", "Tiempo en MN/vez"), datos)));
+
+        List<List<String>> det = new ArrayList<>();
+        ElInt a = d.elems().get(0), b = d.elems().get(1), cc = d.elems().get(2);
+        det.add(List.of(a.clave() + ". " + a.nombre(), "La tolva se alimenta con " + d.kg() + " kg cada vez que la máquina consume la materia prima."));
+        det.add(List.of(b.clave() + ". " + b.nombre() + " y " + cc.clave() + ". " + cc.nombre(),
+                "Cada " + d.cadaN() + " unidades productivas se hace el reemplazo y limpieza de " + c.articulo() + " " + d.nHerr() + " "
+                        + c.herr() + " que tiene la máquina. El elemento " + b.clave() + " se realiza con la máquina inactiva."));
+        for (ElInt e : d.elems().subList(3, d.elems().size())) {
+            det.add(List.of(e.clave() + ". " + e.nombre(), "Este elemento se hace una vez en cada ciclo."
+                    + (e.exterior() ? " Se realiza con la máquina detenida." : "")));
+        }
+        r.add(new Seccion("Detalles", null, tabla(List.of("Elemento", "Detalles"), det)));
+        List<String> interiores = new ArrayList<>();
+        for (ElInt e : d.elems()) if (!e.exterior()) interiores.add(e.clave());
+        r.add(new Seccion(null, "Los elementos " + lista(interiores) + " se hacen con la máquina en marcha. La velocidad de entrega de la máquina es de "
+                + fi(d.vel()) + " " + c.producto() + "/min y en cada ciclo se producen " + fi(d.lote()) + " " + c.producto()
+                + " de aproximadamente " + js(d.g()) + " g.", null));
+
+        List<List<String>> sup = new ArrayList<>();
+        for (ElInt e : d.elems()) sup.add(List.of(e.clave() + ". " + e.nombre(), e.pf() + " %"));
+        sup.add(List.of("F. Misceláneos", d.pfm() + " %"));
+        r.add(new Seccion("Suplementos", "La empresa da el " + d.psnp() + " % del tiempo del ciclo para suplementos por necesidades personales. El TNO "
+                + (d.inint() ? "es ininterrumpido" : "no es ininterrumpido") + " y el operario " + (d.puede() ? "puede" : "no puede")
+                + " dejar la máquina sola. Para los suplementos por fatiga, según las tablas de la empresa:",
+                tabla(List.of("Elemento", "% de suplementos"), sup)));
+
+        r.add(new Seccion("Producción esperada", "• La limpieza de la máquina demora " + js(j.limpH()) + " " + (j.limpH() == 1 ? "hora" : "horas")
+                + " y se hace " + j.limpV() + " " + (j.limpV() == 1 ? "vez" : "veces") + " por semana.\n"
+                + "• Para cambio de ropa se dan " + j.ropa() + " minutos por turno.\n"
+                + "• Para almuerzo se dan " + j.comida() + " minutos por turno.\n"
+                + "• La empresa tiene " + j.turnos() + " " + (j.turnos() == 1 ? "turno" : "turnos") + " al día de " + j.h()
+                + " horas c/u y trabaja " + j.dias() + " días a la semana.", null));
+        r.add(new Seccion(null, "Calcular los diferentes tiempos, los suplementos, el tiempo tipo, la producción esperada, la carga de trabajo "
+                + "del operario y con ello verificar si se le puede asignar más de una máquina.", null));
+        return r;
+    }
+
+    /** Solución del caso integral en el orden de las diapositivas (pasos 8 a 12), con sus tablas. */
+    private static List<Paso> pasosIntegral(Datos d, Calculo s) {
+        Ctx c = d.c();
+        Jornada j = d.j();
+        List<Paso> pasos = new ArrayList<>();
+        pasos.add(paso("Veces por unidad del elemento A",
+                "VEZ/unidad = [1 vez | kg por carga] × [1 kg | 1000 g] × [g | 1 " + c.pieza() + "] × [" + c.producto() + " | 1 unidad]",
+                "[1 vez | " + d.kg() + " kg] × [1 kg | 1000 g] × [" + js(d.g()) + " g | 1 " + c.pieza() + "] × [" + fi(d.lote()) + " "
+                        + c.producto() + " | 1 unidad]",
+                fmt(s.vuA) + " vez/unidad"));
+        pasos.add(paso("Veces por unidad de los elementos B y C", "VEZ/unidad = [" + c.herr() + " | unidades]",
+                "[" + d.nHerr() + " veces | " + d.cadaN() + " unidades]",
+                fmt(s.vuH) + " veces/unidad" + (d.vuH() != null && d.vuH() != 0 ? " (la diapositiva de clase usa 3.830; el cociente exacto es 3.833)" : "")));
+        List<String> unaVez = new ArrayList<>();
+        for (ElInt e : d.elems()) if (e.clave().compareTo("D") >= 0) unaVez.add(e.clave());
+        pasos.add(paso("Veces por unidad de los elementos " + String.join(" y ", unaVez), "Se hacen una vez en cada ciclo",
+                "1 vez por ciclo de 1 unidad", "1 vez/unidad"));
+
+        List<List<String>> mn = new ArrayList<>();
+        for (ElCalc e : s.els) mn.add(List.of(e.e().clave() + ". " + e.e().nombre(), fmt(e.e().mnvez()), fmt(e.vu()), fmt(e.mnu())));
+        mn.add(List.of("TOTAL", "", "", fmt(s.total)));
+        mn.add(List.of("F. Misceláneos", d.pm() + " %", "", d.pm() + "%(" + fmt(s.total) + ") = " + fmt(s.misc)));
+        pasos.add(paso("Tiempo en MN/unidad de cada elemento", "MN/unidad = MN/vez × VEZ/unidad;  misceláneos = " + d.pm() + " % del TOTAL",
+                "Se multiplica cada fila de la tabla:", "TOTAL = " + fmt(s.total) + " min/unidad,  misceláneos = " + fmt(s.misc) + " min/unidad",
+                tabla(List.of("Elemento", "Tiempo en MN/vez", "Vez/unidad", "Tiempo en MN/unidad"), mn)));
+
+        pasos.add(paso("Tiempo condicionado por la máquina (TM)",
+                "[" + c.producto() + " | minuto] × [1 unidad | " + c.producto() + " por ciclo] = [unidades | minuto];   TM = [1 | unidades/minuto]",
+                "[" + fi(d.vel()) + " " + c.producto() + " | minuto] × [1 unidad | " + fi(d.lote()) + " " + c.producto() + "] = " + js(s.frac)
+                        + " [unidades | minuto];   TM = [1 | " + js(s.frac) + "]",
+                "TM = " + fmt(s.TM) + " min/unidad"));
+
+        pasos.add(paso("Elementos de trabajo interior (ETI)", "ETI = TOTAL de los elementos interiores + " + d.pm() + " % de misceláneos",
+                "Elementos que se hacen con la máquina en marcha:", "ETI = " + fmt(s.ETI) + " min/unidad",
+                tablaGrupo(s, false, d.pm())));
+        pasos.add(paso("Elementos de trabajo exterior (ETE)", "ETE = TOTAL de los elementos exteriores + " + d.pm() + " % de misceláneos",
+                "Elementos que se hacen con la máquina detenida:", "ETE = " + fmt(s.ETE) + " min/unidad",
+                tablaGrupo(s, true, d.pm())));
+        pasos.add(paso("Tiempo no ocupado (TNO)", "TNO = TM − ETI", "TNO = " + fmt(s.TM) + " − " + fmt(s.ETI), "TNO = " + fmt(s.TNO) + " min/unidad"));
+
+        pasos.add(paso("Suplementos por necesidades personales (SNP)", "SNP = " + d.psnp() + " % (TC);   TC = ETE + TM",
+                "SNP = " + d.psnp() + " % (" + fmt(s.ETE) + " + " + fmt(s.TM) + ")", "SNP = " + fmt(s.SNP) + " min/unidad"));
+        List<List<String>> sf = new ArrayList<>();
+        for (int k = 0; k < s.els.size(); k++) {
+            ElCalc e = s.els.get(k);
+            FilaSF f = s.sfF.get(k);
+            sf.add(List.of(e.e().clave() + ". " + e.e().nombre(), fmt(f.mnu()), String.valueOf(f.pct()), fmt(f.sf())));
+        }
+        FilaSF fm = s.sfF.get(s.sfF.size() - 1);
+        sf.add(List.of("F. Misceláneos", fmt(fm.mnu()), String.valueOf(fm.pct()), fmt(fm.sf())));
+        sf.add(List.of("TOTAL", "", "", fmt(s.SF)));
+        pasos.add(paso("Suplementos por fatiga (SF)", "MN/unidad de suplementos = Tiempo MN/unidad × % de suplementos;   SF = suma",
+                "Según las tablas de la empresa:", "SF = " + fmt(s.SF) + " min/unidad",
+                tabla(List.of("Elemento", "Tiempo MN/unidad", "% de suplementos", "MN/unidad de suplementos"), sf)));
+
+        pasos.add(paso("Asignación del SNP dentro del ciclo",
+                "Para dar el SNP dentro del TNO se debe cumplir: 1) TNO > 10 min, 2) el TNO es ininterrumpido y 3) el operario puede dejar la máquina sin atender",
+                razonesSNP(s.TNO, d.inint(), d.puede()),
+                s.a.snpDentro() ? "El SNP se da dentro del TNO" : "El SNP se da por fuera"));
+        double disp = s.a.snpDentro() ? r3(s.TNO - s.SNP) : s.TNO;
+        pasos.add(paso("Asignación del SF dentro del ciclo",
+                "Ciclo largo: si TNO > SF, todo el SF se da dentro del TNO; si TNO < SF, parte dentro y parte afuera",
+                (s.a.snpDentro() ? "TNO libre = " + fmt(s.TNO) + " − " + fmt(s.SNP) + " = " + fmt(disp) : "TNO = " + fmt(s.TNO))
+                        + (disp > s.SF ? " > " : " < ") + "SF = " + fmt(s.SF),
+                s.a.sfCaso().equals("dentro") ? "Todo el SF se da dentro del TNO"
+                        : s.a.sfCaso().equals("fuera") ? "Todo el SF se da por fuera"
+                        : "SF dentro " + fmt(s.a.sfDentro()) + " y por fuera " + fmt(s.a.sfFuera())));
+        List<String> fuera = new ArrayList<>();
+        if (!s.a.snpDentro()) fuera.add(fmt(s.SNP));
+        if (s.a.sfFuera() > 0) fuera.add(fmt(s.a.sfFuera()));
+        pasos.add(paso("Tiempo tipo (TT)", "TT = ETE + TM + (SNP + SF)*   * solo la porción de suplementos que queda fuera del TNO",
+                "TT = " + fmt(s.ETE) + " + " + fmt(s.TM) + (fuera.isEmpty() ? " + 0" : fuera.size() == 1 ? " + " + fuera.get(0) : " + (" + String.join(" + ", fuera) + ")"),
+                "TT = " + fmt(s.TT) + " min/unidad"));
+
+        pasos.addAll(pasosJornadaGuia(j));
+        pasos.add(paso("Producción esperada", "[tiempo real | turno] × [1 unidad | TT]",
+                "[" + fmt(j.real()) + " min | turno] × [1 unidad | " + fmt(s.TT) + " min]", fmt(s.prod) + " unidades/turno"));
+        pasos.add(paso("Carga de trabajo del operario", "Carga de trabajo = [ETE + ETI | ETE + TM]",
+                "[" + fmt(s.ETE) + " + " + fmt(s.ETI) + " | " + fmt(s.ETE) + " + " + fmt(s.TM) + "] = [" + fmt(r3(s.ETE + s.ETI)) + " | "
+                        + fmt(r3(s.ETE + s.TM)) + "]",
+                js(s.carga) + " = " + js(rd(s.carga * 100, 2)) + " %"));
+        pasos.add(paso("Número de máquinas", "Número de máquinas = [1 | carga de trabajo]", "[1 | " + js(s.carga) + "]",
+                js(s.nMaq) + ": el operario puede atender " + s.ent + " " + (s.ent == 1 ? "máquina" : "máquinas") + " al tiempo"));
+        return pasos;
+    }
+
+    /** Tabla de los elementos interiores ({@code exterior = false}) o exteriores con su renglón de misceláneos. */
+    private static Tabla tablaGrupo(Calculo s, boolean exterior, int pm) {
+        List<List<String>> f = new ArrayList<>();
+        for (ElCalc e : s.els) if (e.e().exterior() == exterior) f.add(List.of(e.e().clave() + ". " + e.e().nombre(), fmt(e.mnu())));
+        double suma = exterior ? s.sE : s.sI, total = exterior ? s.ETE : s.ETI;
+        f.add(List.of("TOTAL", fmt(suma)));
+        f.add(List.of("F. Misceláneos", pm + "%(" + fmt(suma) + ") = " + fmt(r3(total - suma))));
+        f.add(List.of(exterior ? "ETE" : "ETI", fmt(total)));
+        return tabla(List.of("Elemento", "Tiempo en MN/unidad"), f);
+    }
+
+    /** Tiempo real del turno escrito con factores de conversión, como en la diapositiva de producción esperada. */
+    private static List<Paso> pasosJornadaGuia(Jornada j) {
+        String veces = j.limpV() == 1 ? "vez" : "veces", turnos = j.turnos() == 1 ? "turno" : "turnos";
+        return List.of(
+                paso("Tiempo del turno", "[h | turno] × [60 min | h]", "[" + j.h() + " h | turno] × [60 min | h]", (j.h() * 60) + " min/turno"),
+                paso("Limpieza de la máquina por turno", "[h | vez] × [veces | semana] × [1 semana | días] × [1 día | turnos] × [60 min | h]",
+                        "[" + js(j.limpH()) + " h | vez] × [" + j.limpV() + " " + veces + " | semana] × [1 semana | " + j.dias() + " días] × [1 día | "
+                                + j.turnos() + " " + turnos + "] × [60 min | h]",
+                        fmt(j.limpMin() / 60) + " h/turno = " + fmt(j.limpMin()) + " min/turno"),
+                paso("Tiempo real por turno", "min/turno − (limpieza + cambio de ropa + almuerzo)",
+                        (j.h() * 60) + " − (" + fmt(j.limpMin()) + " + " + j.ropa() + " + " + j.comida() + ")", fmt(j.real()) + " min/turno"));
     }
 
     private static final Datos EJEMPLO_CLASE = new Datos(CONTEXTOS.get(0), 20, 0.283, 100000, 2000, 23, 6, 2, 7, 9, false, false, 3.83,
@@ -1131,7 +1277,7 @@ final class Generadores {
             default -> throw new IllegalArgumentException("Tipo desconocido " + tipo);
         };
         return new Problema(tipo, info.tema(), info.titulo(), info.dificultad(), semilla, p.enunciado(), p.tabla(),
-                List.copyOf(p.pasos()), List.copyOf(p.respuestas()));
+                List.copyOf(p.pasos()), List.copyOf(p.respuestas()), p.secciones() == null ? null : List.copyOf(p.secciones()));
     }
 
     /** Igual que {@code generarExamen} de JS. */

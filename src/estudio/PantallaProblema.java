@@ -222,8 +222,12 @@ final class PantallaProblema extends JPanel implements Pantalla {
         campoSemilla.setTexto(String.valueOf(p.semilla()));
 
         List<UIP.Bloque> enun = new ArrayList<>();
-        enun.add(new UIP.BloqueTexto("Enunciado", p.enunciado(), A1));
-        if (p.tabla() != null) enun.add(new UIP.BloqueTabla(p.tabla(), A1));
+        if (p.secciones() != null) {
+            enun.add(new UIP.BloqueSecciones("Enunciado", p.secciones(), A1));
+        } else {
+            enun.add(new UIP.BloqueTexto("Enunciado", p.enunciado(), A1));
+            if (p.tabla() != null) enun.add(new UIP.BloqueTabla(p.tabla(), A1));
+        }
         pEnunciado.setTitulo(p.tipo().equals("T20") && p.semilla() == 0 ? "Enunciado y datos · ejemplo de clase" : "Enunciado y datos");
         pEnunciado.poner(enun);
         pFormulas.poner(List.of(new BloqueFormulas(info)));
@@ -749,7 +753,13 @@ final class PantallaProblema extends JPanel implements Pantalla {
     // ================================================================== bloque de pistas / solución
 
     private final class BloquePasos extends UIP.Bloque {
-        private static final float T_TIT = 15.5f, T_FOR = 14.5f, T_SUS = 14.5f, T_RES = 15f;
+        private static final float T_TIT = 15.5f, T_FOR = 14.5f, T_SUS = 14.5f, T_RES = 15f, T_FRAC = 18f;
+
+        /** Texto con fracciones {@code [numerador | denominador]} que se dibujan apiladas. */
+        private static boolean conFracciones(String s) {
+            int a = s.indexOf('[');
+            return a >= 0 && s.indexOf('|', a) > a && s.indexOf(']', a) > a;
+        }
         private final List<Rectangle> zonas = new ArrayList<>();
 
         int nivel(int i) {
@@ -790,7 +800,9 @@ final class PantallaProblema extends JPanel implements Pantalla {
                     UIP.parrafo(g, p.titulo(), Estilo.SEMI, T_TIT, Estilo.TEXTO, x, y, interior, 1.25, 0);
                 }
                 y += UIP.altoTexto(this, p.titulo(), Estilo.SEMI, T_TIT, interior, 1.25, 0) + 8;
-                int hf = UIP.altoTexto(this, p.formula(), Estilo.SEMI, T_FOR, interior - 28, 1.3, 0);
+                boolean fracF = conFracciones(p.formula());
+                int hf = fracF ? (int) Math.ceil(UIP.Formula.alto(p.formula(), T_FRAC, interior - 28)) + 6
+                        : UIP.altoTexto(this, p.formula(), Estilo.SEMI, T_FOR, interior - 28, 1.3, 0);
                 if (g != null) {
                     RoundRectangle2D caja = new RoundRectangle2D.Double(x, y, interior, hf + 18, 12, 12);
                     g.setColor(Estilo.alfa(A1, 22));
@@ -798,14 +810,28 @@ final class PantallaProblema extends JPanel implements Pantalla {
                     g.setColor(Estilo.alfa(A1, 70));
                     g.setStroke(new BasicStroke(1f));
                     g.draw(caja);
-                    UIP.parrafo(g, p.formula(), Estilo.SEMI, T_FOR, Estilo.mezclar(A1, Color.WHITE, 0.55), x + 14, y + 9, interior - 28, 1.3, 0);
+                    Color cf = Estilo.mezclar(A1, Color.WHITE, 0.55);
+                    if (fracF) UIP.Formula.pintar(g, p.formula(), T_FRAC, cf, x + 14, y + 12, interior - 28);
+                    else UIP.parrafo(g, p.formula(), Estilo.SEMI, T_FOR, cf, x + 14, y + 9, interior - 28, 1.3, 0);
                 }
                 y += hf + 18;
                 if (nv >= 2) {
-                    String s = "Sustitución:  " + p.sustitucion();
                     y += 8;
-                    if (g != null) UIP.parrafo(g, s, Estilo.NORMAL, T_SUS, Estilo.TEXTO_SUAVE, x, y, interior, 1.32, 0);
-                    y += UIP.altoTexto(this, s, Estilo.NORMAL, T_SUS, interior, 1.32, 0);
+                    if (conFracciones(p.sustitucion())) {
+                        // Con fracciones: la etiqueta va sola y la sustitución debajo, apilada como en la libreta.
+                        if (g != null) UIP.parrafo(g, "Sustitución:", Estilo.NORMAL, T_SUS, Estilo.TEXTO_SUAVE, x, y, interior, 1.32, 0);
+                        y += UIP.altoTexto(this, "Sustitución:", Estilo.NORMAL, T_SUS, interior, 1.32, 0) + 4;
+                        if (g != null) UIP.Formula.pintar(g, p.sustitucion(), T_FRAC, Estilo.TEXTO, x, y, interior);
+                        y += (int) Math.ceil(UIP.Formula.alto(p.sustitucion(), T_FRAC, interior)) + 4;
+                    } else {
+                        String s = "Sustitución:  " + p.sustitucion();
+                        if (g != null) UIP.parrafo(g, s, Estilo.NORMAL, T_SUS, Estilo.TEXTO_SUAVE, x, y, interior, 1.32, 0);
+                        y += UIP.altoTexto(this, s, Estilo.NORMAL, T_SUS, interior, 1.32, 0);
+                    }
+                    if (p.tabla() != null) {
+                        y += 10;
+                        y += g != null ? UIP.Tablas.pintar(g, this, p.tabla(), x, y, interior, A1) : UIP.Tablas.alto(this, p.tabla(), interior);
+                    }
                 }
                 if (nv >= 3) {
                     String r = "Resultado:  " + p.resultado();

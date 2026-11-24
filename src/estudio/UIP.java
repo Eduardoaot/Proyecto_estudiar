@@ -214,91 +214,259 @@ final class UIP {
         }
     }
 
+    /** Dibujo de tablas como las de las guías: encabezado de color, columnas numéricas centradas y renglones de total resaltados. */
+    static final class Tablas {
+        private Tablas() {}
+
+        static final float TAM = 14.5f, TAM_CAB = 12f;
+        private static final int PADC = 12;
+
+        /** Renglones que se resaltan: totales y resultados de la tabla. */
+        static boolean esTotal(List<String> f) {
+            String a = f.get(0).trim().toUpperCase();
+            return a.equals("TOTAL") || a.equals("ETI") || a.equals("ETE") || a.equals("SF");
+        }
+
+        /** Columna de valores cortos (números, porcentajes): se centra y no se parte. */
+        static boolean corta(Generadores.Tabla t, int k) {
+            if (k == 0) return false;
+            for (List<String> f : t.filas()) if (f.get(k).length() > 24) return false;
+            return true;
+        }
+
+        private static double[] anchos(Component c, Generadores.Tabla t, double disponible) {
+            int n = t.columnas().size();
+            double[] nat = new double[n], min = new double[n];
+            for (int k = 0; k < n; k++) {
+                // El encabezado puede partirse en dos líneas: cuenta su palabra más larga y algo más de la mitad del total.
+                String cab = t.columnas().get(k).toUpperCase();
+                double largo = 0;
+                for (String p : cab.split(" ")) largo = Math.max(largo, ancho(c, p, Estilo.SEMI, TAM_CAB));
+                double cabeza = Math.max(largo, ancho(c, cab, Estilo.SEMI, TAM_CAB) * 0.62) + 2 * PADC + 4;
+                nat[k] = cabeza;
+                double palabra = 0;
+                for (List<String> f : t.filas()) {
+                    nat[k] = Math.max(nat[k], ancho(c, f.get(k), Estilo.SEMI, TAM) + 2 * PADC + 2);
+                    for (String p : f.get(k).split(" ")) palabra = Math.max(palabra, ancho(c, p, Estilo.SEMI, TAM) + 2 * PADC + 2);
+                }
+                // Las columnas cortas conservan su ancho; las de texto pueden partirse, sin bajar de 170.
+                min[k] = corta(t, k) ? nat[k] : Math.min(nat[k], Math.max(Math.max(palabra, cabeza), 170));
+            }
+            double suma = 0, sumaMin = 0;
+            for (int k = 0; k < n; k++) {
+                suma += nat[k];
+                sumaMin += min[k];
+            }
+            if (suma <= disponible) {
+                for (int k = 0; k < n; k++) nat[k] += (disponible - suma) * nat[k] / suma;
+                return nat;
+            }
+            double[] r = min.clone();
+            if (sumaMin <= disponible) {
+                // Lo que sobra se reparte entre las columnas de texto, según lo que les falta para caber en una línea.
+                double falta = suma - sumaMin, extra = disponible - sumaMin;
+                for (int k = 0; k < n; k++) r[k] += falta > 0 ? extra * (nat[k] - min[k]) / falta : 0;
+            } else {
+                for (int k = 0; k < n; k++) r[k] *= disponible / sumaMin;
+            }
+            return r;
+        }
+
+        private static int altoCab(Component c, Generadores.Tabla t, double[] a) {
+            int h = 0;
+            for (int k = 0; k < a.length; k++) h = Math.max(h, altoTexto(c, t.columnas().get(k).toUpperCase(), Estilo.SEMI, TAM_CAB, a[k] - 2 * PADC, 1.25, 0));
+            return Math.max(h, 16) + 20;
+        }
+
+        private static int altoFila(Component c, List<String> f, double[] a) {
+            int h = 0;
+            for (int k = 0; k < f.size(); k++) h = Math.max(h, altoTexto(c, f.get(k), Estilo.SEMI, TAM, a[k] - 2 * PADC, 1.3, 0));
+            return Math.max(h, 18) + 16;
+        }
+
+        static int alto(Component c, Generadores.Tabla t, double ancho) {
+            double[] a = anchos(c, t, ancho);
+            int h = altoCab(c, t, a);
+            for (List<String> f : t.filas()) h += altoFila(c, f, a);
+            return h;
+        }
+
+        /** Dibuja la tabla y devuelve su alto. */
+        static int pintar(Graphics2D g, Component c, Generadores.Tabla t, double x0, double y0, double total, Color color) {
+            double[] a = anchos(c, t, total);
+            int hc = altoCab(c, t, a);
+            int alto = alto(c, t, total);
+            RoundRectangle2D marco = new RoundRectangle2D.Double(x0, y0, total, alto, 12, 12);
+            Shape antes = g.getClip();
+            g.clip(marco);
+            g.setColor(Estilo.alfa(color, 46));
+            g.fill(new Rectangle2D.Double(x0, y0, total, hc));
+            double x = x0;
+            for (int k = 0; k < a.length; k++) {
+                String cab = t.columnas().get(k).toUpperCase();
+                double hTxt = altoTexto(c, cab, Estilo.SEMI, TAM_CAB, a[k] - 2 * PADC, 1.25, 0);
+                parrafoAlineado(g, cab, Estilo.SEMI, TAM_CAB, Estilo.mezclar(color, Color.WHITE, 0.55), x + PADC, y0 + (hc - hTxt) / 2.0,
+                        a[k] - 2 * PADC, 1.25, corta(t, k));
+                x += a[k];
+            }
+            double y = y0 + hc;
+            for (int r = 0; r < t.filas().size(); r++) {
+                List<String> f = t.filas().get(r);
+                int hf = altoFila(c, f, a);
+                boolean tot = esTotal(f);
+                if (tot) {
+                    g.setColor(Estilo.alfa(color, 26));
+                    g.fill(new Rectangle2D.Double(x0, y, total, hf));
+                } else if (r % 2 == 1) {
+                    g.setColor(new Color(255, 255, 255, 8));
+                    g.fill(new Rectangle2D.Double(x0, y, total, hf));
+                }
+                g.setColor(Estilo.BORDE);
+                g.fill(new Rectangle2D.Double(x0, y - 0.5, total, 1));
+                x = x0;
+                for (int k = 0; k < f.size(); k++) {
+                    int peso = tot || k == 0 ? Estilo.SEMI : Estilo.NORMAL;
+                    Color col = tot ? Estilo.mezclar(color, Color.WHITE, 0.6) : k == 0 ? Estilo.TEXTO : Estilo.TEXTO_SUAVE;
+                    parrafoAlineado(g, f.get(k), peso, TAM, col, x + PADC, y + 8, a[k] - 2 * PADC, 1.3, corta(t, k));
+                    x += a[k];
+                }
+                y += hf;
+            }
+            // Separadores verticales entre columnas.
+            g.setColor(Estilo.BORDE);
+            x = x0;
+            for (int k = 0; k < a.length - 1; k++) {
+                x += a[k];
+                g.fill(new Rectangle2D.Double(x - 0.5, y0, 1, alto));
+            }
+            g.setClip(antes);
+            g.setColor(Estilo.alfa(color, 70));
+            g.setStroke(new BasicStroke(1f));
+            g.draw(marco);
+            return alto;
+        }
+
+        /** Párrafo a la izquierda o centrado línea por línea. */
+        private static void parrafoAlineado(Graphics2D g, String texto, int peso, float tam, Color color, double x, double y, double ancho,
+                                            double inter, boolean centrado) {
+            if (!centrado) {
+                parrafo(g, texto, peso, tam, color, x, y, ancho, inter, 0);
+                return;
+            }
+            g.setFont(Estilo.fuente(peso, tam));
+            FontMetrics f = g.getFontMetrics();
+            // Se parte por palabras y se centra cada línea.
+            List<String> lineas = new ArrayList<>();
+            StringBuilder act = new StringBuilder();
+            for (String p : texto.split(" ")) {
+                String prueba = act.length() == 0 ? p : act + " " + p;
+                if (act.length() > 0 && f.stringWidth(prueba) > ancho) {
+                    lineas.add(act.toString());
+                    act = new StringBuilder(p);
+                } else {
+                    act = new StringBuilder(prueba);
+                }
+            }
+            if (act.length() > 0) lineas.add(act.toString());
+            g.setColor(color);
+            double alto = f.getHeight() * inter;
+            for (int i = 0; i < lineas.size(); i++) {
+                String l = lineas.get(i);
+                g.drawString(l, (float) (x + (ancho - f.stringWidth(l)) / 2), (float) (y + f.getAscent() + i * alto));
+            }
+        }
+    }
+
     /** Tabla de datos del problema. */
     static final class BloqueTabla extends Bloque {
+        private final String titulo;
         private final Generadores.Tabla tabla;
         private final Color color;
-        private static final float TAM = 14.5f, TAM_CAB = 12.5f;
-        private static final int PADC = 12, ALTO_CAB = 36;
 
         BloqueTabla(Generadores.Tabla tabla, Color color) {
+            this("Datos", tabla, color);
+        }
+
+        BloqueTabla(String titulo, Generadores.Tabla tabla, Color color) {
+            this.titulo = titulo;
             this.tabla = tabla;
             this.color = color;
         }
 
-        private double[] anchos(double disponible) {
-            int n = tabla.columnas().size();
-            double[] nat = new double[n];
-            for (int c = 0; c < n; c++) {
-                nat[c] = ancho(this, tabla.columnas().get(c).toUpperCase(), Estilo.SEMI, TAM_CAB) + 2 * PADC + 4;
-                for (List<String> f : tabla.filas()) nat[c] = Math.max(nat[c], ancho(this, f.get(c), Estilo.NORMAL, TAM) + 2 * PADC + 2);
-            }
-            double suma = 0;
-            for (double v : nat) suma += v;
-            if (suma <= disponible) {
-                // Sobra espacio: se reparte proporcionalmente.
-                for (int c = 0; c < n; c++) nat[c] += (disponible - suma) * nat[c] / suma;
-                return nat;
-            }
-            // Falta espacio: las columnas anchas ceden, ninguna baja de 64.
-            double[] r = new double[n];
-            double fijo = 0, flexible = 0;
-            for (double v : nat) flexible += v;
-            for (int c = 0; c < n; c++) r[c] = Math.max(64, nat[c] * disponible / flexible);
-            for (double v : r) fijo += v;
-            if (fijo > disponible) for (int c = 0; c < n; c++) r[c] *= disponible / fijo;
-            return r;
-        }
-
-        private int altoFila(List<String> f, double[] a) {
-            int h = 0;
-            for (int c = 0; c < f.size(); c++) h = Math.max(h, altoTexto(this, f.get(c), Estilo.NORMAL, TAM, a[c] - 2 * PADC, 1.3, 0));
-            return Math.max(h, 18) + 16;
-        }
-
         @Override
         int alto(int w) {
-            double[] a = anchos(w - 2 * PAD);
-            int h = PAD + 26 + ALTO_CAB;
-            for (List<String> f : tabla.filas()) h += altoFila(f, a);
-            return h + PAD - 6;
+            return PAD + 26 + Tablas.alto(this, tabla, w - 2 * PAD) + PAD - 6;
         }
 
         @Override
         void pintar(Graphics2D g, int w, int h) {
-            seccion(g, "Datos", PAD, PAD - 4, w - PAD, color);
-            double[] a = anchos(w - 2 * PAD);
-            double x0 = PAD, y = PAD + 26;
-            double total = w - 2 * PAD;
-            RoundRectangle2D cab = new RoundRectangle2D.Double(x0, y, total, ALTO_CAB, 12, 12);
-            g.setColor(Estilo.alfa(color, 30));
-            g.fill(cab);
-            g.setFont(Estilo.etiqueta(TAM_CAB - 1f));
-            g.setColor(Estilo.mezclar(color, Color.WHITE, 0.35));
-            double x = x0;
-            for (int c = 0; c < a.length; c++) {
-                g.drawString(Estilo.recortar(g.getFontMetrics(), tabla.columnas().get(c).toUpperCase(), a[c] - 2 * PADC),
-                        (float) (x + PADC), (float) (y + 23));
-                x += a[c];
-            }
-            y += ALTO_CAB;
-            for (int r = 0; r < tabla.filas().size(); r++) {
-                List<String> f = tabla.filas().get(r);
-                int hf = altoFila(f, a);
-                if (r % 2 == 1) {
-                    g.setColor(new Color(255, 255, 255, 7));
-                    g.fill(new Rectangle2D.Double(x0, y, total, hf));
+            seccion(g, titulo, PAD, PAD - 4, w - PAD, color);
+            Tablas.pintar(g, this, tabla, PAD, PAD + 26, w - 2 * PAD, color);
+        }
+    }
+
+    /**
+     * Enunciado por secciones, en una sola tarjeta: párrafos (cada línea que empieza con "• " es una viñeta) y tablas,
+     * cada una con su subtítulo, como en las diapositivas de la clase.
+     */
+    static final class BloqueSecciones extends Bloque {
+        private static final float TAM = 16.5f;
+        private final String titulo;
+        private final List<Generadores.Seccion> secciones;
+        private final Color color;
+
+        BloqueSecciones(String titulo, List<Generadores.Seccion> secciones, Color color) {
+            this.titulo = titulo;
+            this.secciones = secciones;
+            this.color = color;
+        }
+
+        private int disponer(int w, Graphics2D g) {
+            double ancho = w - 2 * PAD;
+            int y = PAD + 26;
+            for (int i = 0; i < secciones.size(); i++) {
+                Generadores.Seccion s = secciones.get(i);
+                if (i > 0) y += 16;
+                if (s.titulo() != null) {
+                    if (g != null) {
+                        g.setFont(Estilo.etiqueta(11.5f));
+                        g.setColor(Estilo.mezclar(color, Color.WHITE, 0.45));
+                        g.drawString(s.titulo().toUpperCase(), PAD, y + 13);
+                    }
+                    y += 26;
                 }
-                x = x0;
-                for (int c = 0; c < f.size(); c++) {
-                    parrafo(g, f.get(c), c == 0 ? Estilo.SEMI : Estilo.NORMAL, TAM, c == 0 ? Estilo.TEXTO : Estilo.TEXTO_SUAVE,
-                            x + PADC, y + 8, a[c] - 2 * PADC, 1.3, 0);
-                    x += a[c];
+                if (s.texto() != null) {
+                    for (String linea : s.texto().split("\n")) {
+                        boolean vineta = linea.startsWith("• ");
+                        String txt = vineta ? linea.substring(2) : linea;
+                        double sangria = vineta ? 22 : 0;
+                        if (g != null) {
+                            if (vineta) {
+                                g.setColor(Estilo.mezclar(color, Color.WHITE, 0.3));
+                                g.fill(new java.awt.geom.Ellipse2D.Double(PAD + 5, y + 10, 6, 6));
+                            }
+                            parrafo(g, txt, Estilo.NORMAL, TAM, Estilo.TEXTO, PAD + sangria, y, ancho - sangria, 1.42, 0);
+                        }
+                        y += altoTexto(this, txt, Estilo.NORMAL, TAM, ancho - sangria, 1.42, 0) + (vineta ? 4 : 0);
+                    }
                 }
-                y += hf;
-                g.setColor(Estilo.BORDE);
-                g.fill(new Rectangle2D.Double(x0, y - 0.5, total, 1));
+                if (s.tabla() != null) {
+                    if (s.texto() != null) y += 10;
+                    y += g != null ? Tablas.pintar(g, this, s.tabla(), PAD, y, ancho, color) : Tablas.alto(this, s.tabla(), ancho);
+                }
             }
+            return y + PAD - 6;
+        }
+
+        @Override
+        int alto(int w) {
+            return disponer(w, null);
+        }
+
+        @Override
+        void pintar(Graphics2D g, int w, int h) {
+            seccion(g, titulo, PAD, PAD - 4, w - PAD, color);
+            disponer(w, g);
         }
     }
 

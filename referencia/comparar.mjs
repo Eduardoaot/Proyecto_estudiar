@@ -6,12 +6,16 @@ import { generar } from "./generadores.js";
 const archivo = process.argv[2];
 if (!archivo) { console.error("Falta el archivo del volcado"); process.exit(2); }
 
+// T16, T19 y T20 muestran en Java los pasos con fracciones y tablas, como en las diapositivas de clase:
+// en esos tipos se comparan enunciado, datos y respuestas, pero no el texto de los pasos.
+const PASOS_PROPIOS = new Set(["T16", "T19", "T20"]);
+
 const canon = (p) => ({
   tipo: p.tipo,
   semilla: p.semilla,
   enunciado: p.enunciado,
   tabla: p.tabla ? { columnas: p.tabla.columnas.map(String), filas: p.tabla.filas.map((f) => f.map(String)) } : null,
-  pasos: p.pasos.map((x) => (Array.isArray(x) ? x : [x.titulo, x.formula, x.sustitucion, x.resultado])),
+  pasos: PASOS_PROPIOS.has(p.tipo) ? null : p.pasos.map((x) => (Array.isArray(x) ? x : [x.titulo, x.formula, x.sustitucion, x.resultado])),
   respuestas: p.respuestas.map((r) =>
     r.tipo === "opcion"
       ? { clave: r.clave, etiqueta: r.etiqueta, tipo: r.tipo, valor: r.valor, opciones: r.opciones.map((o) => (Array.isArray(o) ? o : [o.valor, o.texto])) }
